@@ -14,6 +14,7 @@ export function extractMetaData(image: File): photoMetadata {
   reader.readAsDataURL(image);
   reader.onload = function () {
     console.log(reader.result);
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     getImageSize(reader.result as string).then((dimensions) => {
       console.log(dimensions);
     });
