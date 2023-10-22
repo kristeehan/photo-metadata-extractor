@@ -1,3 +1,5 @@
+import { getFileMetaData } from "./meta-data-helpers";
+
 interface photoMetadata {
   name?: string;
   size: number;
@@ -11,13 +13,10 @@ interface imageDimensions {
 
 export function extractMetaData(image: File): photoMetadata {
   const reader = new FileReader();
-  reader.readAsDataURL(image);
+  reader.readAsArrayBuffer(image);
   reader.onload = function () {
-    console.log(reader.result);
+    getFileMetaData(reader.result as ArrayBufferLike);
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    getImageSize(reader.result as string).then((dimensions) => {
-      console.log(dimensions);
-    });
   };
 
   return {
