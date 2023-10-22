@@ -6,7 +6,12 @@ function fileSelectHandler(event: React.ChangeEvent<HTMLInputElement>) {
   const { files } = target as HTMLInputElement;
   if (!files) return;
   const file = files[0];
-  const metadata = extractMetaData(file);
+  extractMetaData(file).then(
+    (metadata) => {
+      console.log(metadata);
+    },
+    () => {},
+  );
 }
 
 function Example() {

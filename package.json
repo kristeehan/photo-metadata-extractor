@@ -36,6 +36,8 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.7",
+    "exif-js": "^2.3.0",
+    "exifreader": "^4.14.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.1.3",
