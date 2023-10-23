@@ -4,7 +4,7 @@ body {
 
 .card-container {
   margin: 0 auto;
-  max-width: 1200px;
+  max-width: 800px;
 }
 
 .metadata-card {
@@ -18,10 +18,10 @@ body {
 .metadata-list {
   list-style: none;
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 1%;
+  left: 1%;
   z-index: 1;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   color: white;
   text-shadow: #000 0 0 10px;
 }
