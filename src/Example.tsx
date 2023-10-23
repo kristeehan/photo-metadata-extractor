@@ -26,13 +26,17 @@ function fileSelectHandler(event: React.ChangeEvent<HTMLInputElement>) {
 function Example() {
   return (
     <form>
-      <label htmlFor="file-select">Select a file:</label>
-      <input
-        type="file"
-        id="file-select"
-        name="file-select"
-        onChange={fileSelectHandler}
-      />
+      <p>
+        <label htmlFor="file-select">Select a file:</label>
+      </p>
+      <p>
+        <input
+          type="file"
+          id="file-select"
+          name="file-select"
+          onChange={fileSelectHandler}
+        />
+      </p>
     </form>
   );
 }
