@@ -32,7 +32,7 @@ function MetaDataCard({ imageFile }: MetaDataCardProps) {
         onLoad={() => setImageHasLoaded(true)}
       />
       {metadata && (
-        <ul>
+        <ul className="metadata-list">
           {Object.entries(metadata).map(([key, value]) => (
             <li key={key}>
               <strong>{key}</strong>: {value}

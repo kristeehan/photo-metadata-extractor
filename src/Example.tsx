@@ -26,7 +26,9 @@ function Example() {
           onChange={fileSelectHandler}
         />
       </p>
-      {imageSelected && <MetaDataCard imageFile={imageSelected} />}
+      <div className="card-container">
+        {imageSelected && <MetaDataCard imageFile={imageSelected} />}
+      </div>
     </form>
   );
 }
