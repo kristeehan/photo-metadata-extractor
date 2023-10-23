@@ -6,7 +6,11 @@ interface MetaDataCardProps {
   imageFile: File;
 }
 
-const keyToLabelMap = {
+interface KeyToLabelMap {
+  [key: string]: string;
+}
+
+const keyToLabelMap: KeyToLabelMap = {
   author: "Creator",
   shutterSpeed: "Shutter Speed",
   focalLength: "Focal Length",
