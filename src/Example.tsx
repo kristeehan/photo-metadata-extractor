@@ -1,29 +1,18 @@
 import { createRoot } from "react-dom/client";
-import { extractMetaData, extractMetaDataFile } from "./photo-extractor";
-
-function fileSelectHandler(event: React.ChangeEvent<HTMLInputElement>) {
-  const { target } = event;
-  const { files } = target as HTMLInputElement;
-  if (!files) return;
-  const file = files[0];
-  extractMetaData(file).then(
-    (metadata) => {
-      console.log(metadata);
-      console.log("in async version");
-    },
-    () => {},
-  );
-
-  const reader = new FileReader();
-  reader.readAsArrayBuffer(file);
-  reader.onload = () => {
-    const metadata = extractMetaDataFile(reader.result as ArrayBuffer);
-    console.log(metadata);
-    console.log("in sync version");
-  };
-}
+import { useState } from "react";
+import MetaDataCard from "./MetaDataCard";
 
 function Example() {
+  const [imageSelected, setImageSelected] = useState(null as File | null);
+
+  function fileSelectHandler(event: React.ChangeEvent<HTMLInputElement>) {
+    const { target } = event;
+    const { files } = target as HTMLInputElement;
+    if (!files) return;
+    const file = files[0];
+    setImageSelected(file);
+  }
+
   return (
     <form>
       <p>
@@ -37,6 +26,7 @@ function Example() {
           onChange={fileSelectHandler}
         />
       </p>
+      {imageSelected && <MetaDataCard imageFile={imageSelected} />}
     </form>
   );
 }
