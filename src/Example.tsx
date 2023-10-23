@@ -1,5 +1,5 @@
 import { createRoot } from "react-dom/client";
-import { extractMetaData } from "./photo-extractor";
+import { extractMetaData, extractMetaDataFile } from "./photo-extractor";
 
 function fileSelectHandler(event: React.ChangeEvent<HTMLInputElement>) {
   const { target } = event;
@@ -9,9 +9,18 @@ function fileSelectHandler(event: React.ChangeEvent<HTMLInputElement>) {
   extractMetaData(file).then(
     (metadata) => {
       console.log(metadata);
+      console.log("in async version");
     },
     () => {},
   );
+
+  const reader = new FileReader();
+  reader.readAsArrayBuffer(file);
+  reader.onload = () => {
+    const metadata = extractMetaDataFile(reader.result as ArrayBuffer);
+    console.log(metadata);
+    console.log("in sync version");
+  };
 }
 
 function Example() {

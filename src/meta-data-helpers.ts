@@ -10,10 +10,49 @@ export interface exifMetaData {
   height?: number;
   width?: number;
 }
+export interface exifTags {
+  Artist?: {
+    description: string;
+  };
+  Model?: {
+    description: string;
+  };
+  Lens?: {
+    description: string;
+  };
+  "Image Height"?: {
+    value: number;
+  };
+  "Image Width"?: {
+    value: number;
+  };
+  ISOSpeedRatings?: {
+    description: string;
+  };
+  ShutterSpeedValue?: {
+    description: string;
+  };
+  ApertureValue?: {
+    description: string;
+  };
+  DateTimeOriginal?: {
+    description: string;
+  };
+}
 
 export async function getEXIFMetaData(image: File): Promise<exifMetaData> {
   const tags = await ExifReader.load(image);
-  // console.log(tags);
+  return extractWantedTags(tags);
+}
+
+export function getEXIFMetaDataFileBuffer(
+  fileBuffer: ArrayBuffer,
+): exifMetaData {
+  const tags = ExifReader.load(fileBuffer);
+  return extractWantedTags(tags);
+}
+
+function extractWantedTags(tags: exifTags): exifMetaData {
   const {
     Artist,
     Model,
