@@ -6,6 +6,18 @@ interface MetaDataCardProps {
   imageFile: File;
 }
 
+const keyToLabelMap = {
+  author: "Creator",
+  shutterSpeed: "Shutter Speed",
+  focalLength: "Focal Length",
+  aperture: "Aperture",
+  iso: "ISO",
+  date: "Date",
+  camera: "Camera",
+  height: "Height",
+  width: "Width",
+};
+
 /**
  * Component that displays the metadata of a photo and the photo itself.
  */
@@ -35,7 +47,8 @@ function MetaDataCard({ imageFile }: MetaDataCardProps) {
         <ul className="metadata-list">
           {Object.entries(metadata).map(([key, value]) => (
             <li key={key}>
-              <strong>{key}</strong>: {value}
+              <strong>{keyToLabelMap[key] ? keyToLabelMap[key] : key}</strong>:{" "}
+              {value}
             </li>
           ))}
         </ul>
