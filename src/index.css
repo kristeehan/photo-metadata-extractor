@@ -25,10 +25,20 @@ body {
   color: white;
   text-shadow: #000 0 0 10px;
   display: none;
+  opacity: 0;
+  transition: opacity 200ms ease-in-out;
+  -webkit-transition: opacity 200ms ease-in-out;
+  -moz-transition: opacity 200ms ease-in-out;
+  -ms-transition: opacity 200ms ease-in-out;
+  -o-transition: opacity 200ms ease-in-out;
 }
 
 .metadata-list--display {
   display: block;
+}
+
+.metadata-list--display:hover {
+  opacity: 1;
 }
 
 .icon-overlay {
@@ -37,4 +47,9 @@ body {
   left: 1%;
   z-index: 1;
   cursor: pointer;
+  display: none;
+}
+
+.icon-overlay--display {
+  display: block;
 }

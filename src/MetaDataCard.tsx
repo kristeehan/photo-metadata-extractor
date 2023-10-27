@@ -29,6 +29,7 @@ const keyToLabelMap: KeyToLabelMap = {
 function MetaDataCard({ imageFile }: MetaDataCardProps) {
   const [imageHasLoaded, setImageHasLoaded] = useState(false);
   const [showMetaData, setShowMetaData] = useState(false);
+  const [showIcon, setShowIcon] = useState(true);
   const [metadata, setMetadata] = useState(null as exifMetaData | null);
 
   useEffect(() => {
@@ -49,11 +50,16 @@ function MetaDataCard({ imageFile }: MetaDataCardProps) {
         alt=""
         onLoad={() => setImageHasLoaded(true)}
       />
-      <div className="icon-overlay">
+      <div
+        className={
+          showIcon ? "icon-overlay--display icon-overlay" : "icon-overlay"
+        }
+      >
         <Info
           onMouseEnter={(e) => {
             e.stopPropagation();
             setShowMetaData(true);
+            setShowIcon(false);
           }}
           color="#fff"
         />
@@ -68,6 +74,7 @@ function MetaDataCard({ imageFile }: MetaDataCardProps) {
           onMouseLeave={(e) => {
             e.stopPropagation();
             setShowMetaData(false);
+            setShowIcon(true);
           }}
         >
           {Object.entries(metadata).map(([key, value]) => (
