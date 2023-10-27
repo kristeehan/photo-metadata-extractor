@@ -5,6 +5,7 @@ import { Info } from "lucide-react";
 
 interface MetaDataCardProps {
   imageFile: File;
+  metaDataPosition?: "top-left" | "top-right" | "bottom-left" | "bottom-right";
 }
 
 interface KeyToLabelMap {
@@ -26,11 +27,15 @@ const keyToLabelMap: KeyToLabelMap = {
 /**
  * Component that displays the metadata of a photo and the photo itself.
  */
-function MetaDataCard({ imageFile }: MetaDataCardProps) {
+function MetaDataCard({
+  imageFile,
+  metaDataPosition = "top-left",
+}: MetaDataCardProps) {
   const [imageHasLoaded, setImageHasLoaded] = useState(false);
   const [showMetaData, setShowMetaData] = useState(false);
   const [showIcon, setShowIcon] = useState(true);
   const [metadata, setMetadata] = useState(null as exifMetaData | null);
+  const positionSuffix = metaDataPosition;
 
   useEffect(() => {
     extractMetaData(imageFile).then(
@@ -52,7 +57,9 @@ function MetaDataCard({ imageFile }: MetaDataCardProps) {
       />
       <div
         className={
-          showIcon ? "icon-overlay--display icon-overlay" : "icon-overlay"
+          showIcon
+            ? `icon-overlay--display icon-overlay icon-overlay--${positionSuffix}`
+            : `icon-overlay icon-overlay--${positionSuffix}`
         }
       >
         <Info
@@ -68,8 +75,8 @@ function MetaDataCard({ imageFile }: MetaDataCardProps) {
         <ul
           className={
             showMetaData
-              ? "metadata-list metadata-list--display"
-              : "metadata-list"
+              ? `metadata-list metadata-list--display metadata-list--${positionSuffix}`
+              : `metadata-list metadata-list--${positionSuffix}`
           }
           onMouseLeave={(e) => {
             e.stopPropagation();

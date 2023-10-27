@@ -27,7 +27,12 @@ function Example() {
         />
       </p>
       <div className="card-container">
-        {imageSelected && <MetaDataCard imageFile={imageSelected} />}
+        {imageSelected && (
+          <MetaDataCard
+            imageFile={imageSelected}
+            metaDataPosition="bottom-left"
+          />
+        )}
       </div>
     </form>
   );
