@@ -1,6 +1,7 @@
 import { extractMetaData } from "./photo-extractor";
 import { exifMetaData } from "./meta-data-helpers";
 import { useState, useEffect } from "react";
+import { Info } from "lucide-react";
 
 interface MetaDataCardProps {
   imageFile: File;
@@ -47,6 +48,7 @@ function MetaDataCard({ imageFile }: MetaDataCardProps) {
         alt=""
         onLoad={() => setImageHasLoaded(true)}
       />
+      <Info />
       {metadata && (
         <ul className="metadata-list">
           {Object.entries(metadata).map(([key, value]) => (
