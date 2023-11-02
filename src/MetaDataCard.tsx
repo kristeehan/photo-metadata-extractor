@@ -49,13 +49,14 @@ function MetaDataCard({
   }, [imageHasLoaded, imageFile]);
 
   return (
-    <div className="metadata-card">
+    <div data-testid="metadata-card" className="metadata-card">
       <img
         src={URL.createObjectURL(imageFile)}
         alt=""
         onLoad={() => setImageHasLoaded(true)}
       />
       <div
+        data-testid="hover-icon"
         className={
           showIcon
             ? `icon-overlay--display icon-overlay icon-overlay--${positionSuffix}`
@@ -63,6 +64,7 @@ function MetaDataCard({
         }
       >
         <Info
+          data-testid="hover-icon-svg"
           onMouseEnter={(e) => {
             e.stopPropagation();
             setShowMetaData(true);
@@ -73,6 +75,7 @@ function MetaDataCard({
       </div>
       {metadata && (
         <ul
+          data-testid="metadata-list"
           className={
             showMetaData
               ? `metadata-list metadata-list--display metadata-list--${positionSuffix}`
