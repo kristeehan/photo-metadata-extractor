@@ -3,7 +3,6 @@ import path from "path";
 import { describe, expect, it } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import MetaDataCard from "../MetaDataCard";
-import generateSolidColorJPEG from "../test-helpers/generate-mock-jpg";
 
 const imagePath = path.join(__dirname, "assets", "test-image.jpg");
 const imageBuffer = fs.readFileSync(imagePath);
