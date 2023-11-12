@@ -6,6 +6,12 @@ import { Info } from "lucide-react";
 interface MetaDataCardProps {
   imageFile: File;
   metaDataPosition?: "top-left" | "top-right" | "bottom-left" | "bottom-right";
+  showOnClick?: boolean;
+}
+
+interface InfoIconProps {
+  onClick?: () => void;
+  onMouseEnter?: () => void;
 }
 
 interface KeyToLabelMap {
@@ -30,12 +36,27 @@ const keyToLabelMap: KeyToLabelMap = {
 function MetaDataCard({
   imageFile,
   metaDataPosition = "top-left",
+  showOnClick = false,
 }: MetaDataCardProps) {
   const [imageHasLoaded, setImageHasLoaded] = useState(false);
   const [showMetaData, setShowMetaData] = useState(false);
   const [showIcon, setShowIcon] = useState(true);
   const [metadata, setMetadata] = useState(null as exifMetaData | null);
   const positionSuffix = metaDataPosition;
+
+  const infoIconProps: InfoIconProps = {};
+
+  if (showOnClick) {
+    infoIconProps.onClick = () => {
+      setShowMetaData(!showMetaData);
+      setShowIcon(!showIcon);
+    };
+  } else {
+    infoIconProps.onMouseEnter = () => {
+      setShowMetaData(true);
+      setShowIcon(false);
+    };
+  }
 
   useEffect(() => {
     extractMetaData(imageFile).then(
@@ -63,15 +84,7 @@ function MetaDataCard({
             : `icon-overlay icon-overlay--${positionSuffix}`
         }
       >
-        <Info
-          data-testid="hover-icon-svg"
-          onMouseEnter={(e) => {
-            e.stopPropagation();
-            setShowMetaData(true);
-            setShowIcon(false);
-          }}
-          color="#fff"
-        />
+        <Info data-testid="hover-icon-svg" color="#fff" {...infoIconProps} />
       </div>
       {metadata && (
         <ul
