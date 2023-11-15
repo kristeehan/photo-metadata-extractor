@@ -1,11 +1,14 @@
 import { extractMetaData } from "./photo-extractor";
-import { exifMetaData } from "./meta-data-helpers";
 import { useState, useEffect } from "react";
 import { Info } from "lucide-react";
+import { keyToLabelMap, exifMetaData } from "./constants";
+import MetaDataList from "./MetaDataList";
 
+type ExifMetaDataOrNull = exifMetaData | null;
+type PositionSuffix = "top-left" | "top-right" | "bottom-left" | "bottom-right";
 interface MetaDataCardProps {
   imageFile: File;
-  metaDataPosition?: "top-left" | "top-right" | "bottom-left" | "bottom-right";
+  metaDataPosition?: PositionSuffix;
   showOnClick?: boolean;
 }
 
@@ -13,22 +16,6 @@ interface InfoIconProps {
   onClick?: () => void;
   onMouseEnter?: () => void;
 }
-
-interface KeyToLabelMap {
-  [key: string]: string;
-}
-
-const keyToLabelMap: KeyToLabelMap = {
-  author: "Creator",
-  shutterSpeed: "Shutter Speed",
-  focalLength: "Focal Length",
-  aperture: "Aperture",
-  iso: "ISO",
-  date: "Date",
-  camera: "Camera",
-  height: "Height",
-  width: "Width",
-};
 
 /**
  * Component that displays the metadata of a photo and the photo itself.
@@ -41,7 +28,7 @@ function MetaDataCard({
   const [imageHasLoaded, setImageHasLoaded] = useState(false);
   const [showMetaData, setShowMetaData] = useState(false);
   const [showIcon, setShowIcon] = useState(true);
-  const [metadata, setMetadata] = useState(null as exifMetaData | null);
+  const [metadata, setMetadata] = useState(null as ExifMetaDataOrNull);
   const positionSuffix = metaDataPosition;
 
   const infoIconProps: InfoIconProps = {};
@@ -61,7 +48,7 @@ function MetaDataCard({
   useEffect(() => {
     extractMetaData(imageFile).then(
       (metadata) => {
-        setMetadata(metadata);
+        setMetadata(metadata as ExifMetaDataOrNull);
       },
       (error) => {
         throw error;
@@ -87,26 +74,16 @@ function MetaDataCard({
         <Info data-testid="hover-icon-svg" color="#fff" {...infoIconProps} />
       </div>
       {metadata && (
-        <ul
-          data-testid="metadata-list"
-          className={
-            showMetaData
-              ? `metadata-list metadata-list--display metadata-list--${positionSuffix}`
-              : `metadata-list metadata-list--${positionSuffix}`
-          }
+        <MetaDataList
+          metadata={metadata}
+          showMetaData={showMetaData}
+          positionSuffix={positionSuffix}
           onMouseLeave={(e) => {
             e.stopPropagation();
             setShowMetaData(false);
             setShowIcon(true);
           }}
-        >
-          {Object.entries(metadata).map(([key, value]) => (
-            <li key={key}>
-              <strong>{keyToLabelMap[key] ? keyToLabelMap[key] : key}</strong>:{" "}
-              {value}
-            </li>
-          ))}
-        </ul>
+        />
       )}
     </div>
   );
