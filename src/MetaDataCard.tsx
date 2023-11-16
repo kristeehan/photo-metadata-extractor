@@ -1,21 +1,9 @@
 import { extractMetaData } from "./photo-extractor";
 import { useState, useEffect } from "react";
 import { Info } from "lucide-react";
-import { keyToLabelMap, exifMetaData } from "./constants";
 import MetaDataList from "./MetaDataList";
-
-type ExifMetaDataOrNull = exifMetaData | null;
-type PositionSuffix = "top-left" | "top-right" | "bottom-left" | "bottom-right";
-interface MetaDataCardProps {
-  imageFile: File;
-  metaDataPosition?: PositionSuffix;
-  showOnClick?: boolean;
-}
-
-interface InfoIconProps {
-  onClick?: () => void;
-  onMouseEnter?: () => void;
-}
+import { MetaDataCardProps, InfoIconProps } from "./interfaces";
+import { ExifMetaDataOrNull } from "./types";
 
 /**
  * Component that displays the metadata of a photo and the photo itself.
@@ -30,7 +18,6 @@ function MetaDataCard({
   const [showIcon, setShowIcon] = useState(true);
   const [metadata, setMetadata] = useState(null as ExifMetaDataOrNull);
   const positionSuffix = metaDataPosition;
-
   const infoIconProps: InfoIconProps = {};
 
   if (showOnClick) {

@@ -1,8 +1,8 @@
 import {
   getEXIFMetaData,
   getEXIFMetaDataFileBuffer,
-  exifMetaData,
 } from "./meta-data-helpers";
+import { exifMetaData } from "./interfaces";
 
 export async function extractMetaData(image: File): Promise<exifMetaData> {
   const metadata = await getEXIFMetaData(image);

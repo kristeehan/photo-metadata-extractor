@@ -1,5 +1,5 @@
 import * as ExifReader from "exifreader";
-import { exifMetaData, exifTags } from "./constants";
+import { exifMetaData, exifTags } from "./interfaces";
 
 export async function getEXIFMetaData(image: File): Promise<exifMetaData> {
   const tags = await ExifReader.load(image);

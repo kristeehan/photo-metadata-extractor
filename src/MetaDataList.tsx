@@ -1,11 +1,5 @@
-import { exifMetaData, keyToLabelMap } from "./constants";
-
-interface MetaDataListProps {
-  metadata: exifMetaData;
-  showMetaData: boolean;
-  positionSuffix: string;
-  onMouseLeave: (e: React.MouseEvent<HTMLUListElement, MouseEvent>) => void;
-}
+import { keyToLabelMap } from "./constants";
+import { MetaDataListProps } from "./interfaces";
 
 function MetaDataList(props: MetaDataListProps) {
   const { metadata, showMetaData, positionSuffix, onMouseLeave } = props;

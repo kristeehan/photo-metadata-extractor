@@ -1,6 +1,4 @@
-interface KeyToLabelMap {
-  [key: string]: string;
-}
+import { KeyToLabelMap } from "./interfaces";
 
 export const keyToLabelMap: KeyToLabelMap = {
   author: "Creator",
@@ -13,44 +11,3 @@ export const keyToLabelMap: KeyToLabelMap = {
   height: "Height",
   width: "Width",
 };
-
-export interface exifMetaData {
-  author?: string;
-  focalLength?: string;
-  iso?: string;
-  shutterSpeed?: string;
-  aperture?: string;
-  date?: string;
-  camera?: string;
-  height?: number;
-  width?: number;
-}
-export interface exifTags {
-  Artist?: {
-    description: string;
-  };
-  Model?: {
-    description: string;
-  };
-  Lens?: {
-    description: string;
-  };
-  "Image Height"?: {
-    value: number;
-  };
-  "Image Width"?: {
-    value: number;
-  };
-  ISOSpeedRatings?: {
-    description: string;
-  };
-  ShutterSpeedValue?: {
-    description: string;
-  };
-  ApertureValue?: {
-    description: string;
-  };
-  DateTimeOriginal?: {
-    description: string;
-  };
-}
