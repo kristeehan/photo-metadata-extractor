@@ -1,28 +1,14 @@
 import { extractMetaData } from "./photo-extractor";
-import { exifMetaData } from "./meta-data-helpers";
 import { useState, useEffect } from "react";
-import { Info } from "lucide-react";
-
-interface MetaDataCardProps {
-  imageFile: File;
-  metaDataPosition?: "top-left" | "top-right" | "bottom-left" | "bottom-right";
-}
-
-interface KeyToLabelMap {
-  [key: string]: string;
-}
-
-const keyToLabelMap: KeyToLabelMap = {
-  author: "Creator",
-  shutterSpeed: "Shutter Speed",
-  focalLength: "Focal Length",
-  aperture: "Aperture",
-  iso: "ISO",
-  date: "Date",
-  camera: "Camera",
-  height: "Height",
-  width: "Width",
-};
+import { Info, XCircle } from "lucide-react";
+import MetaDataList from "./MetaDataList";
+import {
+  CloseIconProps,
+  MetaDataCardProps,
+  InfoIconProps,
+  MetaDataListProps,
+  exifMetaData,
+} from "./interfaces";
 
 /**
  * Component that displays the metadata of a photo and the photo itself.
@@ -30,12 +16,42 @@ const keyToLabelMap: KeyToLabelMap = {
 function MetaDataCard({
   imageFile,
   metaDataPosition = "top-left",
+  showOnClick = false,
 }: MetaDataCardProps) {
   const [imageHasLoaded, setImageHasLoaded] = useState(false);
   const [showMetaData, setShowMetaData] = useState(false);
   const [showIcon, setShowIcon] = useState(true);
-  const [metadata, setMetadata] = useState(null as exifMetaData | null);
+  const [metadata, setMetadata] = useState({} as exifMetaData);
   const positionSuffix = metaDataPosition;
+  const infoIconProps: InfoIconProps = {};
+  const closeIconProps: CloseIconProps = {};
+  const metaDataListProps: MetaDataListProps = {
+    metadata,
+    showMetaData,
+    positionSuffix,
+  };
+
+  closeIconProps.onClick = () => {
+    setShowMetaData(false);
+    setShowIcon(true);
+  };
+
+  if (showOnClick) {
+    infoIconProps.onClick = () => {
+      setShowMetaData(!showMetaData);
+      setShowIcon(!showIcon);
+    };
+  } else {
+    infoIconProps.onMouseEnter = () => {
+      setShowMetaData(true);
+      setShowIcon(false);
+    };
+    metaDataListProps.onMouseLeave = (e) => {
+      e.stopPropagation();
+      setShowMetaData(false);
+      setShowIcon(true);
+    };
+  }
 
   useEffect(() => {
     extractMetaData(imageFile).then(
@@ -63,37 +79,23 @@ function MetaDataCard({
             : `icon-overlay icon-overlay--${positionSuffix}`
         }
       >
-        <Info
-          data-testid="hover-icon-svg"
-          onMouseEnter={(e) => {
-            e.stopPropagation();
-            setShowMetaData(true);
-            setShowIcon(false);
-          }}
-          color="#fff"
-        />
+        <Info data-testid="hover-icon-svg" color="#fff" {...infoIconProps} />
       </div>
       {metadata && (
-        <ul
-          data-testid="metadata-list"
-          className={
-            showMetaData
-              ? `metadata-list metadata-list--display metadata-list--${positionSuffix}`
-              : `metadata-list metadata-list--${positionSuffix}`
-          }
-          onMouseLeave={(e) => {
-            e.stopPropagation();
-            setShowMetaData(false);
-            setShowIcon(true);
-          }}
-        >
-          {Object.entries(metadata).map(([key, value]) => (
-            <li key={key}>
-              <strong>{keyToLabelMap[key] ? keyToLabelMap[key] : key}</strong>:{" "}
-              {value}
-            </li>
-          ))}
-        </ul>
+        <MetaDataList {...metaDataListProps}>
+          <div
+            data-testid="close-icon"
+            className={
+              showMetaData
+                ? "close-icon-overlay close-icon-overlay--display"
+                : "close-icon-overlay"
+            }
+          >
+            {showOnClick && showMetaData && (
+              <XCircle color="#fff" {...closeIconProps} />
+            )}
+          </div>
+        </MetaDataList>
       )}
     </div>
   );

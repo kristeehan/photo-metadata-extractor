@@ -30,7 +30,8 @@ function Example() {
         {imageSelected && (
           <MetaDataCard
             imageFile={imageSelected}
-            metaDataPosition="bottom-left"
+            showOnClick={false}
+            metaDataPosition="top-left"
           />
         )}
       </div>
