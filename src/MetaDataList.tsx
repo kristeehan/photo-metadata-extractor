@@ -21,6 +21,7 @@ function MetaDataList(props: MetaDataListProps) {
           {value}
         </li>
       ))}
+      {props.children}
     </ul>
   );
 }

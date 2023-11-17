@@ -81,19 +81,22 @@ function MetaDataCard({
       >
         <Info data-testid="hover-icon-svg" color="#fff" {...infoIconProps} />
       </div>
-      <div
-        data-testid="close-icon"
-        className={
-          showMetaData
-            ? "close-icon-overlay close-icon-overlay--display"
-            : "close-icon-overlay"
-        }
-      >
-        {showOnClick && showMetaData && (
-          <XCircle color="#fff" {...closeIconProps} />
-        )}
-      </div>
-      {metadata && <MetaDataList {...metaDataListProps} />}
+      {metadata && (
+        <MetaDataList {...metaDataListProps}>
+          <div
+            data-testid="close-icon"
+            className={
+              showMetaData
+                ? "close-icon-overlay close-icon-overlay--display"
+                : "close-icon-overlay"
+            }
+          >
+            {showOnClick && showMetaData && (
+              <XCircle color="#fff" {...closeIconProps} />
+            )}
+          </div>
+        </MetaDataList>
+      )}
     </div>
   );
 }

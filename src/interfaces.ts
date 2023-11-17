@@ -1,3 +1,4 @@
+import { ReactElement } from "react";
 import { PositionSuffix } from "./types";
 
 export interface MetaDataCardProps {
@@ -11,6 +12,7 @@ export interface MetaDataListProps {
   showMetaData: boolean;
   positionSuffix: string;
   onMouseLeave?: (e: React.MouseEvent<HTMLUListElement, MouseEvent>) => void;
+  children?: ReactElement;
 }
 
 export interface InfoIconProps {
