@@ -55,7 +55,8 @@ body {
   display: block;
 }
 
-.metadata-list--display:hover {
+.metadata-list--display:hover,
+.metadata-list--display-opacity-one {
   opacity: 1;
 }
 
@@ -64,6 +65,15 @@ body {
   z-index: 1;
   cursor: pointer;
   display: none;
+}
+
+.close-icon-overlay {
+  position: absolute;
+  z-index: 1;
+  cursor: pointer;
+  display: none;
+  top: 0;
+  right: 0;
 }
 
 .icon-overlay--top-left {
@@ -86,6 +96,7 @@ body {
   right: 1%;
 }
 
-.icon-overlay--display {
+.icon-overlay--display,
+.close-icon-overlay--display {
   display: block;
 }

@@ -10,12 +10,16 @@ export interface MetaDataListProps {
   metadata: exifMetaData;
   showMetaData: boolean;
   positionSuffix: string;
-  onMouseLeave: (e: React.MouseEvent<HTMLUListElement, MouseEvent>) => void;
+  onMouseLeave?: (e: React.MouseEvent<HTMLUListElement, MouseEvent>) => void;
 }
 
 export interface InfoIconProps {
   onClick?: () => void;
   onMouseEnter?: () => void;
+}
+
+export interface CloseIconProps {
+  onClick?: () => void;
 }
 
 export interface KeyToLabelMap {

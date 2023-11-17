@@ -1,9 +1,14 @@
 import { extractMetaData } from "./photo-extractor";
 import { useState, useEffect } from "react";
-import { Info } from "lucide-react";
+import { Info, XCircle } from "lucide-react";
 import MetaDataList from "./MetaDataList";
-import { MetaDataCardProps, InfoIconProps } from "./interfaces";
-import { ExifMetaDataOrNull } from "./types";
+import {
+  CloseIconProps,
+  MetaDataCardProps,
+  InfoIconProps,
+  MetaDataListProps,
+  exifMetaData,
+} from "./interfaces";
 
 /**
  * Component that displays the metadata of a photo and the photo itself.
@@ -16,9 +21,20 @@ function MetaDataCard({
   const [imageHasLoaded, setImageHasLoaded] = useState(false);
   const [showMetaData, setShowMetaData] = useState(false);
   const [showIcon, setShowIcon] = useState(true);
-  const [metadata, setMetadata] = useState(null as ExifMetaDataOrNull);
+  const [metadata, setMetadata] = useState({} as exifMetaData);
   const positionSuffix = metaDataPosition;
   const infoIconProps: InfoIconProps = {};
+  const closeIconProps: CloseIconProps = {};
+  const metaDataListProps: MetaDataListProps = {
+    metadata,
+    showMetaData,
+    positionSuffix,
+  };
+
+  closeIconProps.onClick = () => {
+    setShowMetaData(false);
+    setShowIcon(true);
+  };
 
   if (showOnClick) {
     infoIconProps.onClick = () => {
@@ -30,12 +46,17 @@ function MetaDataCard({
       setShowMetaData(true);
       setShowIcon(false);
     };
+    metaDataListProps.onMouseLeave = (e) => {
+      e.stopPropagation();
+      setShowMetaData(false);
+      setShowIcon(true);
+    };
   }
 
   useEffect(() => {
     extractMetaData(imageFile).then(
       (metadata) => {
-        setMetadata(metadata as ExifMetaDataOrNull);
+        setMetadata(metadata);
       },
       (error) => {
         throw error;
@@ -60,18 +81,19 @@ function MetaDataCard({
       >
         <Info data-testid="hover-icon-svg" color="#fff" {...infoIconProps} />
       </div>
-      {metadata && (
-        <MetaDataList
-          metadata={metadata}
-          showMetaData={showMetaData}
-          positionSuffix={positionSuffix}
-          onMouseLeave={(e) => {
-            e.stopPropagation();
-            setShowMetaData(false);
-            setShowIcon(true);
-          }}
-        />
-      )}
+      <div
+        data-testid="close-icon"
+        className={
+          showMetaData
+            ? "close-icon-overlay close-icon-overlay--display"
+            : "close-icon-overlay"
+        }
+      >
+        {showOnClick && showMetaData && (
+          <XCircle color="#fff" {...closeIconProps} />
+        )}
+      </div>
+      {metadata && <MetaDataList {...metaDataListProps} />}
     </div>
   );
 }
