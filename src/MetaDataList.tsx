@@ -18,7 +18,7 @@ function MetaDataList(props: MetaDataListProps) {
       {Object.entries(metadata).map(([key, value]) => (
         <li key={key}>
           <strong>{keyToLabelMap[key] ? keyToLabelMap[key] : key}</strong>:{" "}
-          {value}
+          <span>{value}</span>
         </li>
       ))}
       {props.children}

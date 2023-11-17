@@ -1,9 +1,10 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
+import { keyToLabelMap } from "../constants";
 import MetaDataList from "../MetaDataList";
 
 const metadata = {
-  title: "Test Image",
+  shutterSpeed: "1/100",
   author: "John Doe",
   date: "2022-01-01",
 };
@@ -20,6 +21,9 @@ describe("MetaDataList", () => {
 
     const metadataList = screen.getByTestId("metadata-list");
     expect(metadataList).toBeTruthy();
+    expect(
+      metadataList.classList.contains("metadata-list--display"),
+    ).toBeTruthy();
     list.unmount();
   });
 
@@ -34,6 +38,9 @@ describe("MetaDataList", () => {
 
     const metadataList = screen.getByTestId("metadata-list");
     expect(metadataList).toBeTruthy();
+    expect(
+      metadataList.classList.contains("metadata-list--display"),
+    ).toBeFalsy();
     list.unmount();
   });
 
@@ -52,22 +59,28 @@ describe("MetaDataList", () => {
     list.unmount();
   });
 
-  // it("Renders metadata items correctly", () => {
-  //   render(
-  //     <MetaDataList
-  //       metadata={metadata}
-  //       showMetaData={true}
-  //       positionSuffix="right"
-  //     />,
-  //   );
+  it("Renders metadata items correctly", () => {
+    const list = render(
+      <MetaDataList
+        metadata={metadata}
+        showMetaData={true}
+        positionSuffix="right"
+      />,
+    );
 
-  //   const metadataItems = screen.getAllByRole("listitem");
-  //   expect(metadataItems).toHaveLength(Object.keys(metadata).length);
-
-  //   metadataItems.forEach((item, index) => {
-  //     const key = Object.keys(metadata)[index];
-  //     const value = Object.values(metadata)[index];
-  //     expect(item).toHaveTextContent(`${key}: ${value}`);
-  //   });
-  // });
+    const metadataItems = screen.getAllByRole("listitem");
+    expect(metadataItems).toHaveLength(Object.keys(metadata).length);
+    for (let i = 0; i < metadataItems.length; i++) {
+      const metadataItem = metadataItems[i];
+      const metadataKey = metadataItem.querySelector("strong");
+      const metadataValue = metadataItem.querySelector("span");
+      expect(metadataKey).toBeTruthy();
+      expect(metadataValue).toBeTruthy();
+      expect(metadataKey?.textContent).toBe(
+        keyToLabelMap[Object.keys(metadata)[i]],
+      );
+      expect(metadataValue?.textContent).toBe(Object.values(metadata)[i]);
+    }
+    list.unmount();
+  });
 });
