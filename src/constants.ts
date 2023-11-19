@@ -1,5 +1,4 @@
 import { KeyToLabelMap } from "./interfaces";
-
 export const keyToLabelMap: KeyToLabelMap = {
   author: "Creator",
   shutterSpeed: "Shutter Speed",

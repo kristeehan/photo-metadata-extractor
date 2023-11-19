@@ -31,6 +31,19 @@ body {
   -o-transition: opacity 200ms ease-in-out;
 }
 
+.metadata-list li {
+  position: relative;
+  line-height: 2rem;
+  padding-left: 2rem;
+  align-items: center;
+}
+
+.icon-wrapper {
+  position: absolute;
+  top: 4px;
+  left: 0;
+}
+
 .metadata-list--top-left {
   top: 1%;
   left: 1%;

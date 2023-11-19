@@ -1,5 +1,6 @@
 import { ReactElement } from "react";
 import { PositionSuffix } from "./types";
+import { LucideIcon } from "lucide-react";
 
 export interface MetaDataCardProps {
   imageFile: File;
@@ -26,6 +27,10 @@ export interface CloseIconProps {
 
 export interface KeyToLabelMap {
   [key: string]: string;
+}
+
+export interface LabelToIconMap {
+  [key: string]: LucideIcon;
 }
 
 export interface exifMetaData {
