@@ -73,7 +73,9 @@ describe("MetaDataList", () => {
     for (let i = 0; i < metadataItems.length; i++) {
       const metadataItem = metadataItems[i];
       const metadataKey = metadataItem.querySelector("strong");
-      const metadataValue = metadataItem.querySelector("span");
+      const metadataValue = metadataItem.querySelector(
+        "span[data-testid=value]",
+      );
       expect(metadataKey).toBeTruthy();
       expect(metadataValue).toBeTruthy();
       expect(metadataKey?.textContent).toBe(

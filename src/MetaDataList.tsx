@@ -51,7 +51,7 @@ function MetaDataList(props: MetaDataListProps) {
               <Icon {...iconProps} />
             </span>
             <strong>{keyToLabelMap[key] ? keyToLabelMap[key] : key}</strong>:{" "}
-            <span>{value}</span>
+            <span data-testid="value">{value}</span>
           </li>
         );
       })}
