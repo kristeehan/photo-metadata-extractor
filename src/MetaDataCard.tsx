@@ -79,7 +79,7 @@ function MetaDataCard({
             : `icon-overlay icon-overlay--${positionSuffix}`
         }
       >
-        <Info data-testid="hover-icon-svg" color="#fff" {...infoIconProps} />
+        <Info data-testid="info-icon-svg" color="#fff" {...infoIconProps} />
       </div>
       {metadata && (
         <MetaDataList {...metaDataListProps}>
@@ -92,7 +92,11 @@ function MetaDataCard({
             }
           >
             {showOnClick && showMetaData && (
-              <XCircle color="#fff" {...closeIconProps} />
+              <XCircle
+                color="#fff"
+                data-testid="close-icon-svg"
+                {...closeIconProps}
+              />
             )}
           </div>
         </MetaDataList>
