@@ -33,18 +33,20 @@ function Example() {
   }, []);
 
   return (
-    <form>
-      <p>
-        <label htmlFor="file-select">Select a file:</label>
-      </p>
-      <p>
-        <input
-          type="file"
-          id="file-select"
-          name="file-select"
-          onChange={fileSelectHandler}
-        />
-      </p>
+    <div class="example-container">
+      <form>
+        <p>
+          <label htmlFor="file-select">Select a file:</label>
+        </p>
+        <p>
+          <input
+            type="file"
+            id="file-select"
+            name="file-select"
+            onChange={fileSelectHandler}
+          />
+        </p>
+      </form>
       <div className="card-container">
         {imageSelected && (
           <MetaDataCard
@@ -72,7 +74,7 @@ function Example() {
           metaDataPosition="top-left"
         />
       </div>
-    </form>
+    </div>
   );
 }
 
