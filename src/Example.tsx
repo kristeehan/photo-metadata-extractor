@@ -5,7 +5,7 @@ import MetaDataCard from "./MetaDataCard";
 
 function Example() {
   const [imageSelected, setImageSelected] = useState(null as File | null);
-  const [exampleAsset, setExampleAsset] = useState(null as File | null);
+  const [exampleAssets, setExampleAssets] = useState(null as File[] | null);
 
   function fileSelectHandler(event: React.ChangeEvent<HTMLInputElement>) {
     const { target } = event;
@@ -15,14 +15,21 @@ function Example() {
     setImageSelected(file);
   }
 
-  console.log("example is rerendering");
-
   useEffect(() => {
-    getExampleAssets().then((blob) => {
-      const file = new File([blob], "test-image.jpg", { type: "image/jpeg" });
-      console.log(file, "what is going on here");
-      setExampleAsset(file);
-    });
+    getExampleAssets()
+      .then((blobs) => {
+        const files: File[] = [];
+        blobs.forEach((blob) => {
+          const file = new File([blob], "downloaded_image.jpg", {
+            type: "image/jpg",
+          });
+          files.push(file);
+        });
+        setExampleAssets(files);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }, []);
 
   return (
@@ -48,13 +55,15 @@ function Example() {
         )}
       </div>
       <div className="card-container">
-        {exampleAsset && (
-          <MetaDataCard
-            imageFile={exampleAsset}
-            showOnClick={true}
-            metaDataPosition="top-left"
-          />
-        )}
+        {exampleAssets &&
+          exampleAssets.map((file, index) => (
+            <MetaDataCard
+              key={index}
+              imageFile={file}
+              showOnClick={false}
+              metaDataPosition="top-left"
+            />
+          ))}
       </div>
       <div className="card-container">
         <MetaDataCard

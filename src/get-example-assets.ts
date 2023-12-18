@@ -1,6 +1,10 @@
 export default async function getExampleAssets() {
-  const response = await fetch("./example_assets/example-photo-8.jpg");
-  const blob = await response.blob();
-  console.log("here");
-  return blob;
+  const promises = [];
+  for (let i = 1; i <= 8; i++) {
+    promises.push(fetch(`./example_assets/example-photo-${i}.jpg`));
+  }
+
+  const responses = await Promise.all(promises);
+  const blobs = await Promise.all(responses.map((response) => response.blob()));
+  return blobs;
 }
