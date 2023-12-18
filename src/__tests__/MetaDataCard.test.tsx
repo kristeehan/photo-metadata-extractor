@@ -16,6 +16,12 @@ describe("MetaDataCard", () => {
     card.unmount();
   });
 
+  it('Renders when passed a string for "imageUrl"', () => {
+    const card = render(<MetaDataCard imageUrl="assets/test-image.jpg" />);
+    expect(card.getByTestId("metadata-card")).toBeTruthy();
+    card.unmount();
+  });
+
   it('displays the "Info" icon', async () => {
     const card = render(<MetaDataCard imageFile={file} />);
     await screen.findByTestId("hover-icon");
