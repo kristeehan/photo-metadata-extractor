@@ -3,7 +3,8 @@ import { PositionSuffix } from "./types";
 import { LucideIcon } from "lucide-react";
 
 export interface MetaDataCardProps {
-  imageFile: File;
+  imageFile?: File;
+  imageUrl?: string;
   metaDataPosition?: PositionSuffix;
   showOnClick?: boolean;
 }

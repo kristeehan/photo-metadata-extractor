@@ -1,5 +1,5 @@
 import { extractMetaData } from "./photo-extractor";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Info, XCircle } from "lucide-react";
 import MetaDataList from "./MetaDataList";
 import {
@@ -15,13 +15,14 @@ import {
  */
 function MetaDataCard({
   imageFile,
+  imageUrl,
   metaDataPosition = "top-left",
   showOnClick = false,
 }: MetaDataCardProps) {
-  const [imageHasLoaded, setImageHasLoaded] = useState(false);
   const [showMetaData, setShowMetaData] = useState(false);
   const [showIcon, setShowIcon] = useState(true);
   const [metadata, setMetadata] = useState({} as exifMetaData);
+  const [image, setImage] = useState(null as File | null);
   const positionSuffix = metaDataPosition;
   const infoIconProps: InfoIconProps = {};
   const closeIconProps: CloseIconProps = {};
@@ -30,6 +31,7 @@ function MetaDataCard({
     showMetaData,
     positionSuffix,
   };
+  const imageSrc = imageFile ? URL.createObjectURL(imageFile) : imageUrl;
 
   closeIconProps.onClick = () => {
     setShowMetaData(false);
@@ -53,8 +55,34 @@ function MetaDataCard({
     };
   }
 
+  function handleImageLoaded(event: React.SyntheticEvent<HTMLImageElement>) {
+    if (!imageFile) {
+      const img = event.target as HTMLImageElement;
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
+
+      canvas.width = img.width;
+      canvas.height = img.height;
+
+      ctx.drawImage(img, 0, 0);
+
+      canvas.toBlob(function (blob: Blob | null) {
+        if (!blob) {
+          throw new Error("Something went wrong while converting to blob");
+        }
+        const file = new File([blob], "downloaded_image.png", {
+          type: "image/png",
+        });
+        canvas.remove();
+        setImage(file);
+      }, "image/png");
+    } else {
+      setImage(imageFile);
+    }
+  }
+
   useEffect(() => {
-    extractMetaData(imageFile).then(
+    extractMetaData(image).then(
       (metadata) => {
         setMetadata(metadata);
       },
@@ -62,15 +90,11 @@ function MetaDataCard({
         throw error;
       },
     );
-  }, [imageHasLoaded, imageFile]);
+  }, [image]);
 
   return (
     <div data-testid="metadata-card" className="metadata-card">
-      <img
-        src={URL.createObjectURL(imageFile)}
-        alt=""
-        onLoad={() => setImageHasLoaded(true)}
-      />
+      <img src={imageSrc} alt="" onLoad={handleImageLoaded} />
       <div
         data-testid="hover-icon"
         className={

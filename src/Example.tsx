@@ -1,9 +1,11 @@
 import { createRoot } from "react-dom/client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import getExampleAssets from "./get-example-assets";
 import MetaDataCard from "./MetaDataCard";
 
 function Example() {
   const [imageSelected, setImageSelected] = useState(null as File | null);
+  const [exampleAsset, setExampleAsset] = useState(null as File | null);
 
   function fileSelectHandler(event: React.ChangeEvent<HTMLInputElement>) {
     const { target } = event;
@@ -12,6 +14,16 @@ function Example() {
     const file = files[0];
     setImageSelected(file);
   }
+
+  console.log("example is rerendering");
+
+  useEffect(() => {
+    getExampleAssets().then((blob) => {
+      const file = new File([blob], "test-image.jpg", { type: "image/jpeg" });
+      console.log(file, "what is going on here");
+      setExampleAsset(file);
+    });
+  }, []);
 
   return (
     <form>
@@ -30,10 +42,26 @@ function Example() {
         {imageSelected && (
           <MetaDataCard
             imageFile={imageSelected}
+            showOnClick={false}
+            metaDataPosition="top-left"
+          />
+        )}
+      </div>
+      <div className="card-container">
+        {exampleAsset && (
+          <MetaDataCard
+            imageFile={exampleAsset}
             showOnClick={true}
             metaDataPosition="top-left"
           />
         )}
+      </div>
+      <div className="card-container">
+        <MetaDataCard
+          imageUrl="/example_assets/example-photo-2.jpg"
+          showOnClick={true}
+          metaDataPosition="top-left"
+        />
       </div>
     </form>
   );
