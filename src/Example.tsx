@@ -33,7 +33,7 @@ function Example() {
   }, []);
 
   return (
-    <div class="example-container">
+    <div className="example-container">
       <form>
         <p>
           <label htmlFor="file-select">Select a file:</label>
