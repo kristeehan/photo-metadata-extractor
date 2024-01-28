@@ -10,6 +10,9 @@ import {
   exifMetaData,
 } from "./interfaces";
 
+import styles from "./metadatacard.module.css";
+console.log(styles, " our stlyes");
+
 /**
  * Component that displays the metadata of a photo and the photo itself.
  */
@@ -92,15 +95,19 @@ function MetaDataCard({
     );
   }, [image]);
 
+  const iconClassName = styles["icon-overlay"];
+  const iconDisplayClassName = styles["icon-overlay--display"];
+  const iconPositionClassName = styles[`icon-overlay--${positionSuffix}`];
+
   return (
-    <div data-testid="metadata-card" className="metadata-card">
+    <div data-testid="metadata-card" className={styles["metadata-card"]}>
       <img src={imageSrc} alt="" onLoad={handleImageLoaded} />
       <div
         data-testid="hover-icon"
         className={
           showIcon
-            ? `icon-overlay--display icon-overlay icon-overlay--${positionSuffix}`
-            : `icon-overlay icon-overlay--${positionSuffix}`
+            ? `${iconClassName} ${iconDisplayClassName} ${iconPositionClassName}`
+            : `${iconClassName} ${iconPositionClassName}}`
         }
       >
         <Info data-testid="info-icon-svg" color="#fff" {...infoIconProps} />
@@ -111,8 +118,8 @@ function MetaDataCard({
             data-testid="close-icon"
             className={
               showMetaData
-                ? "close-icon-overlay close-icon-overlay--display"
-                : "close-icon-overlay"
+                ? styles["close-icon-overlay close-icon-overlay--display"]
+                : styles["close-icon-overlay"]
             }
           >
             {showOnClick && showMetaData && (

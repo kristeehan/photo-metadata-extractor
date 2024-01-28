@@ -1,14 +1,14 @@
-body {
-  font-family: "Roboto", sans-serif;
-}
-
 .card-container {
   margin: 0 auto;
   max-width: 800px;
+  font-family: "Roboto", sans-serif;
 }
 
 .metadata-card {
   position: relative;
+  margin: 0 auto;
+  max-width: 800px;
+  font-family: "Roboto", sans-serif;
 }
 
 .metadata-card img {

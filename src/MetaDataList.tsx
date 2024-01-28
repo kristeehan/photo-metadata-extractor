@@ -11,6 +11,7 @@ import {
   UserCircle2,
   View,
 } from "lucide-react";
+import styles from "./metadatacard.module.css";
 
 export const labelToIconMap: LabelToIconMap = {
   author: UserCircle2,
@@ -26,11 +27,16 @@ export const labelToIconMap: LabelToIconMap = {
 
 function MetaDataList(props: MetaDataListProps) {
   const { metadata, showMetaData, positionSuffix, onMouseLeave } = props;
+  const metaListClassName = styles["metadata-list"];
+  const metaListDisplayClassName = styles["metadata-list--display"];
+  const metaListPositionClassName = styles[`metadata-list--${positionSuffix}`];
+  const metaListOpacityClassName = styles["metadata-list--display-opacity-one"];
+  const iconWrapperClassName = styles["icon-wrapper"];
+
   let className = showMetaData
-    ? `metadata-list metadata-list--display metadata-list--${positionSuffix}`
-    : `metadata-list metadata-list--${positionSuffix}`;
-  className +=
-    onMouseLeave !== undefined ? "" : " metadata-list--display-opacity-one";
+    ? `${metaListClassName} ${metaListDisplayClassName} ${metaListPositionClassName}`
+    : `${metaListClassName} ${metaListPositionClassName}`;
+  className += onMouseLeave !== undefined ? "" : ` ${metaListOpacityClassName}`;
 
   return (
     <ul
@@ -47,7 +53,7 @@ function MetaDataList(props: MetaDataListProps) {
         const Icon = labelToIconMap[key];
         return (
           <li key={key}>
-            <span className="icon-wrapper">
+            <span className={iconWrapperClassName}>
               <Icon {...iconProps} />
             </span>
             <strong>{keyToLabelMap[key] ? keyToLabelMap[key] : key}</strong>:{" "}
