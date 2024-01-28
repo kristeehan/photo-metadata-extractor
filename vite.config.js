@@ -10,6 +10,7 @@ export default defineConfig({
     environment: "happy-dom",
   },
   build: {
+    copyPublicDir: false,
     lib: {
       entry: resolve(__dirname, "./src/index.ts"),
       name: "photo-metadata-extractor",
