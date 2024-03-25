@@ -24,10 +24,13 @@ function extractWantedTags(tags: exifTags): exifMetaData {
     ShutterSpeedValue,
     ApertureValue,
     DateTimeOriginal,
+    ImageDescription,
   } = tags;
+
   return {
     author: Artist?.description,
     aperture: ApertureValue?.description,
+    description: ImageDescription?.description,
     focalLength: Lens?.description,
     iso: ISOSpeedRatings?.description,
     shutterSpeed: ShutterSpeedValue?.description,

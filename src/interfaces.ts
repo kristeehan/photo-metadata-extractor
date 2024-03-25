@@ -36,6 +36,7 @@ export interface LabelToIconMap {
 
 export interface exifMetaData {
   author?: string;
+  description?: string;
   focalLength?: string;
   iso?: string;
   shutterSpeed?: string;
@@ -71,6 +72,9 @@ export interface exifTags {
     description: string;
   };
   DateTimeOriginal?: {
+    description: string;
+  };
+  ImageDescription?: {
     description: string;
   };
 }

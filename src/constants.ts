@@ -9,4 +9,5 @@ export const keyToLabelMap: KeyToLabelMap = {
   camera: "Camera",
   height: "Height",
   width: "Width",
+  description: "Description",
 };

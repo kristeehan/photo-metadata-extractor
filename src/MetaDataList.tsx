@@ -23,6 +23,7 @@ export const labelToIconMap: LabelToIconMap = {
   camera: Camera,
   height: Ruler,
   width: Ruler,
+  description: Lightbulb,
 };
 
 function MetaDataList(props: MetaDataListProps) {
