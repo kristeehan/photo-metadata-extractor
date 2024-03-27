@@ -3,6 +3,18 @@ import { useState, useEffect } from "react";
 import getExampleAssets from "./get-example-assets";
 import MetaDataCard from "./MetaDataCard";
 
+interface ExampleComponentProps {
+  description: string;
+}
+
+const ExampleComponent: React.FC<ExampleComponentProps> = ({ description }) => {
+  return (
+    <div>
+      <p>{description}</p>
+    </div>
+  );
+};
+
 function Example() {
   const [imageSelected, setImageSelected] = useState(null as File | null);
   const [exampleAssets, setExampleAssets] = useState(null as File[] | null);
@@ -53,6 +65,8 @@ function Example() {
             imageFile={imageSelected}
             showOnClick={false}
             metaDataPosition="top-left"
+            component={ExampleComponent}
+            componentMetadata={[{ key: "description" }]}
           />
         )}
       </div>

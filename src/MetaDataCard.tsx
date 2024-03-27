@@ -9,19 +9,49 @@ import {
   MetaDataListProps,
   exifMetaData,
 } from "./interfaces";
-
 import styles from "./metadatacard.module.css";
-console.log(styles, " our stlyes");
+
+function handleImageLoaded(
+  event: React.SyntheticEvent<HTMLImageElement>,
+  imageFile: File | null,
+  setImage: (file: File) => void,
+) {
+  if (!imageFile) {
+    const img = event.target as HTMLImageElement;
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
+
+    canvas.width = img.width;
+    canvas.height = img.height;
+
+    ctx.drawImage(img, 0, 0);
+
+    canvas.toBlob(function (blob: Blob | null) {
+      if (!blob) {
+        throw new Error("Something went wrong while converting to blob");
+      }
+      const file = new File([blob], "downloaded_image.png", {
+        type: "image/png",
+      });
+      canvas.remove();
+      setImage(file);
+    }, "image/png");
+  } else {
+    setImage(imageFile);
+  }
+}
 
 /**
  * Component that displays the metadata of a photo and the photo itself.
  */
-function MetaDataCard({
+function MetaDataCard<CustomComponentProps>({
   imageFile,
   imageUrl,
   metaDataPosition = "top-left",
   showOnClick = false,
-}: MetaDataCardProps) {
+  component,
+  componentMetadata,
+}: MetaDataCardProps<CustomComponentProps>) {
   const [showMetaData, setShowMetaData] = useState(false);
   const [showIcon, setShowIcon] = useState(true);
   const [metadata, setMetadata] = useState({} as exifMetaData);
@@ -58,32 +88,6 @@ function MetaDataCard({
     };
   }
 
-  function handleImageLoaded(event: React.SyntheticEvent<HTMLImageElement>) {
-    if (!imageFile) {
-      const img = event.target as HTMLImageElement;
-      const canvas = document.createElement("canvas");
-      const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
-
-      canvas.width = img.width;
-      canvas.height = img.height;
-
-      ctx.drawImage(img, 0, 0);
-
-      canvas.toBlob(function (blob: Blob | null) {
-        if (!blob) {
-          throw new Error("Something went wrong while converting to blob");
-        }
-        const file = new File([blob], "downloaded_image.png", {
-          type: "image/png",
-        });
-        canvas.remove();
-        setImage(file);
-      }, "image/png");
-    } else {
-      setImage(imageFile);
-    }
-  }
-
   useEffect(() => {
     extractMetaData(image).then(
       (metadata) => {
@@ -95,13 +99,27 @@ function MetaDataCard({
     );
   }, [image]);
 
+  const renderCustomComponent = () => {
+    if (component) {
+      return component({ componentMetadata } as CustomComponentProps);
+    }
+  };
+
   const iconClassName = styles["icon-overlay"];
   const iconDisplayClassName = styles["icon-overlay--display"];
   const iconPositionClassName = styles[`icon-overlay--${positionSuffix}`];
 
   return (
     <div data-testid="metadata-card" className={styles["metadata-card"]}>
-      <img src={imageSrc} alt="" onLoad={handleImageLoaded} />
+      <img
+        src={imageSrc}
+        alt=""
+        onLoad={(event) => {
+          if (imageFile) {
+            handleImageLoaded(event, imageFile, setImage);
+          }
+        }}
+      />
       <div
         data-testid="hover-icon"
         className={
@@ -132,6 +150,7 @@ function MetaDataCard({
           </div>
         </MetaDataList>
       )}
+      {metadata && renderCustomComponent()}
     </div>
   );
 }

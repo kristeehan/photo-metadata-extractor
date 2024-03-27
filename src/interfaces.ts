@@ -2,11 +2,17 @@ import { ReactElement } from "react";
 import { PositionSuffix } from "./types";
 import { LucideIcon } from "lucide-react";
 
-export interface MetaDataCardProps {
-  imageFile?: File;
+export interface MetaDataCardProps<CustomComponentProps> {
+  imageFile?: File | null;
   imageUrl?: string;
   metaDataPosition?: PositionSuffix;
   showOnClick?: boolean;
+  component?: React.FC<CustomComponentProps> | null;
+  componentMetadata?: MetaDataMatch[];
+}
+
+export interface MetaDataMatch {
+  key: string;
 }
 
 export interface MetaDataListProps {
