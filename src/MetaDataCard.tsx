@@ -27,6 +27,7 @@ function MetaDataCard<CustomComponentProps>({
   const [showIcon, setShowIcon] = useState(true);
   const [metadata, setMetadata] = useState({} as exifMetaData);
   const [image, setImage] = useState(null as File | null);
+  const [imageSrc, setImagSrc] = useState("");
   const positionSuffix = metaDataPosition;
   const infoIconProps: InfoIconProps = {};
   const closeIconProps: CloseIconProps = {};
@@ -35,8 +36,6 @@ function MetaDataCard<CustomComponentProps>({
     showMetaData,
     positionSuffix,
   };
-  const imageSrc = imageFile ? URL.createObjectURL(imageFile) : imageUrl;
-
   closeIconProps.onClick = () => {
     setShowMetaData(false);
     setShowIcon(true);
@@ -62,6 +61,7 @@ function MetaDataCard<CustomComponentProps>({
   useEffect(() => {
     extractMetaData(image).then(
       (metadata) => {
+        console.log(metadata, "setting metadata");
         setMetadata(metadata);
       },
       (error) => {
@@ -70,8 +70,14 @@ function MetaDataCard<CustomComponentProps>({
     );
   }, [image]);
 
+  useEffect(() => {
+    if (imageFile) {
+      setImage(imageFile);
+    }
+    setImagSrc(imageFile ? URL.createObjectURL(imageFile) : imageUrl);
+  }, []);
+
   const renderCustomComponent = () => {
-    console.log(metadata, "rendering custom component");
     if (component && metadata && componentMetadata) {
       const componentProps = Object.entries(metadata).reduce(
         (acc, [key, value]) => {
@@ -98,8 +104,9 @@ function MetaDataCard<CustomComponentProps>({
         src={imageSrc}
         alt=""
         onLoad={(event) => {
-          if (imageFile) {
-            handleImageLoaded(event, imageFile, setImage);
+          console.log("image loaded");
+          if (!imageFile) {
+            handleImageLoaded(event, setImage);
           }
         }}
       />

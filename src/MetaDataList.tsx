@@ -12,6 +12,7 @@ import {
   View,
 } from "lucide-react";
 import styles from "./metadatacard.module.css";
+import { test } from "vitest";
 
 export const labelToIconMap: LabelToIconMap = {
   author: UserCircle2,
@@ -42,6 +43,7 @@ function MetaDataList(props: MetaDataListProps) {
   return (
     <ul
       data-testid="metadata-list"
+      data-test-showmetadata={showMetaData}
       className={className}
       onMouseLeave={onMouseLeave}
     >
@@ -52,8 +54,9 @@ function MetaDataList(props: MetaDataListProps) {
           "data-testid": `metadata-list-icon=${key}`,
         };
         const Icon = labelToIconMap[key];
+        const testId = `metadata-list-item-${key}`;
         return (
-          <li key={key}>
+          <li key={key} data-testid={testId}>
             <span className={iconWrapperClassName}>
               <Icon {...iconProps} />
             </span>
