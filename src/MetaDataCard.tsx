@@ -73,7 +73,10 @@ function MetaDataCard<CustomComponentProps>({
     if (imageFile) {
       setImage(imageFile);
     }
-    setImagSrc(imageFile ? URL.createObjectURL(imageFile) : imageUrl);
+    const imageSrc = imageFile ? URL.createObjectURL(imageFile) : imageUrl;
+    if (typeof imageSrc === "string") {
+      setImagSrc(imageSrc);
+    }
   }, []);
 
   const renderCustomComponent = () => {

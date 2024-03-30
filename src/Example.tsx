@@ -71,6 +71,24 @@ function Example() {
           />
         )}
       </div>
+      <div className="card-container">
+        {exampleAssets &&
+          exampleAssets.map((file, index) => (
+            <MetaDataCard
+              key={index}
+              imageFile={file}
+              showOnClick={false}
+              metaDataPosition="top-left"
+            />
+          ))}
+      </div>
+      <div className="card-container">
+        <MetaDataCard
+          imageUrl="/example_assets/example-photo-2.jpg"
+          showOnClick={true}
+          metaDataPosition="top-left"
+        />
+      </div>
     </div>
   );
 }

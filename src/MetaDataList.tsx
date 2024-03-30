@@ -12,7 +12,6 @@ import {
   View,
 } from "lucide-react";
 import styles from "./metadatacard.module.css";
-import { test } from "vitest";
 
 export const labelToIconMap: LabelToIconMap = {
   author: UserCircle2,
