@@ -7,10 +7,11 @@ interface ExampleComponentProps {
   description: string;
 }
 
-const ExampleComponent: React.FC<ExampleComponentProps> = ({ description }) => {
+const ExampleComponent: React.FC<ExampleComponentProps> = (props) => {
+  console.log(props, " what do we have here");
   return (
     <div>
-      <p>{description}</p>
+      <p>Hello</p>
     </div>
   );
 };
@@ -66,27 +67,9 @@ function Example() {
             showOnClick={false}
             metaDataPosition="top-left"
             component={ExampleComponent}
-            componentMetadata={[{ key: "description" }]}
+            componentMetadata={{ keys: ["description"] }}
           />
         )}
-      </div>
-      <div className="card-container">
-        {exampleAssets &&
-          exampleAssets.map((file, index) => (
-            <MetaDataCard
-              key={index}
-              imageFile={file}
-              showOnClick={false}
-              metaDataPosition="top-left"
-            />
-          ))}
-      </div>
-      <div className="card-container">
-        <MetaDataCard
-          imageUrl="/example_assets/example-photo-2.jpg"
-          showOnClick={true}
-          metaDataPosition="top-left"
-        />
       </div>
     </div>
   );

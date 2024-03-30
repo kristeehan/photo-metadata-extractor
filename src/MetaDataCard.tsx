@@ -9,37 +9,8 @@ import {
   MetaDataListProps,
   exifMetaData,
 } from "./interfaces";
+import { handleImageLoaded, isObjectEmpty } from "./helpers";
 import styles from "./metadatacard.module.css";
-
-function handleImageLoaded(
-  event: React.SyntheticEvent<HTMLImageElement>,
-  imageFile: File | null,
-  setImage: (file: File) => void,
-) {
-  if (!imageFile) {
-    const img = event.target as HTMLImageElement;
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
-
-    canvas.width = img.width;
-    canvas.height = img.height;
-
-    ctx.drawImage(img, 0, 0);
-
-    canvas.toBlob(function (blob: Blob | null) {
-      if (!blob) {
-        throw new Error("Something went wrong while converting to blob");
-      }
-      const file = new File([blob], "downloaded_image.png", {
-        type: "image/png",
-      });
-      canvas.remove();
-      setImage(file);
-    }, "image/png");
-  } else {
-    setImage(imageFile);
-  }
-}
 
 /**
  * Component that displays the metadata of a photo and the photo itself.
@@ -100,8 +71,20 @@ function MetaDataCard<CustomComponentProps>({
   }, [image]);
 
   const renderCustomComponent = () => {
-    if (component) {
-      return component({ componentMetadata } as CustomComponentProps);
+    console.log(metadata, "rendering custom component");
+    if (component && metadata && componentMetadata) {
+      const componentProps = Object.entries(metadata).reduce(
+        (acc, [key, value]) => {
+          if (componentMetadata.keys.includes(key)) {
+            if (value) {
+              acc[key] = value;
+            }
+          }
+          return acc;
+        },
+        {} as exifMetaData,
+      );
+      return component(componentProps as CustomComponentProps);
     }
   };
 
@@ -130,7 +113,7 @@ function MetaDataCard<CustomComponentProps>({
       >
         <Info data-testid="info-icon-svg" color="#fff" {...infoIconProps} />
       </div>
-      {metadata && (
+      {!isObjectEmpty(metadata) && (
         <MetaDataList {...metaDataListProps}>
           <div
             data-testid="close-icon"
@@ -150,7 +133,7 @@ function MetaDataCard<CustomComponentProps>({
           </div>
         </MetaDataList>
       )}
-      {metadata && renderCustomComponent()}
+      {!isObjectEmpty(metadata) && component && renderCustomComponent()}
     </div>
   );
 }

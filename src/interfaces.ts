@@ -8,11 +8,11 @@ export interface MetaDataCardProps<CustomComponentProps> {
   metaDataPosition?: PositionSuffix;
   showOnClick?: boolean;
   component?: React.FC<CustomComponentProps> | null;
-  componentMetadata?: MetaDataMatch[];
+  componentMetadata?: MetaDataMatch;
 }
 
 export interface MetaDataMatch {
-  key: string;
+  keys: string[];
 }
 
 export interface MetaDataListProps {
@@ -41,6 +41,7 @@ export interface LabelToIconMap {
 }
 
 export interface exifMetaData {
+  [key: string]: string | number | undefined;
   author?: string;
   description?: string;
   focalLength?: string;
