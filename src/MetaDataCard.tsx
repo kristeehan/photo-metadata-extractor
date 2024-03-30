@@ -61,7 +61,6 @@ function MetaDataCard<CustomComponentProps>({
   useEffect(() => {
     extractMetaData(image).then(
       (metadata) => {
-        console.log(metadata, "setting metadata");
         setMetadata(metadata);
       },
       (error) => {
@@ -104,7 +103,6 @@ function MetaDataCard<CustomComponentProps>({
         src={imageSrc}
         alt=""
         onLoad={(event) => {
-          console.log("image loaded");
           if (!imageFile) {
             handleImageLoaded(event, setImage);
           }

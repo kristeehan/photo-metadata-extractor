@@ -20,9 +20,9 @@ describe("MetaDataList", () => {
     );
     const metadataList = screen.getByTestId("metadata-list");
     expect(metadataList).toBeTruthy();
-    // expect(
-    //   metadataList.classList.contains("metadata-list--display"),
-    // ).toBeTruthy();
+    expect(
+      metadataList.getAttribute("data-test-showmetadata") === "true",
+    ).toBeTruthy();
     list.unmount();
   });
   it("Renders metadata list with correct class when showMetaData is false", () => {
@@ -36,8 +36,8 @@ describe("MetaDataList", () => {
     const metadataList = screen.getByTestId("metadata-list");
     expect(metadataList).toBeTruthy();
     expect(
-      metadataList.classList.contains("metadata-list--display"),
-    ).toBeFalsy();
+      metadataList.getAttribute("data-test-showmetadata") === "false",
+    ).toBeTruthy();
     list.unmount();
   });
   it("Renders metadata list with opacity class when onMouseLeave is not undefined", () => {

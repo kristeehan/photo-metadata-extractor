@@ -61,54 +61,54 @@ describe("MetaDataCard", () => {
     card.unmount();
   });
 
-  // it("It adds the proper class when metaDataPosition is top-left", async () => {
-  //   const card = render(
-  //     <MetaDataCard imageFile={file} metaDataPosition="top-left" />,
-  //   );
-  //   const hoverIcon = await screen.findByTestId("info-icon-svg");
-  //   fireEvent.mouseEnter(hoverIcon);
-  //   const metadataList = await screen.findByTestId("metadata-list");
-  //   expect(metadataList).toBeTruthy();
-  //   expect(
-  //     metadataList.classList.contains("metadata-list--top-left"),
-  //   ).toBeTruthy();
-  //   card.unmount();
-  // });
+  it("It adds the proper class when metaDataPosition is top-left", async () => {
+    const card = render(
+      <MetaDataCard imageFile={file} metaDataPosition="top-left" />,
+    );
+    const hoverIcon = await screen.findByTestId("info-icon-svg");
+    fireEvent.mouseEnter(hoverIcon);
+    const metadataList = await screen.findByTestId("metadata-list");
+    expect(metadataList).toBeTruthy();
+    expect(
+      metadataList.getAttribute("data-test-position") === "top-left",
+    ).toBeTruthy();
+    card.unmount();
+  });
 
-  // it("Uses click to show metadata when showOnClick is true", async () => {
-  //   const card = render(<MetaDataCard imageFile={file} showOnClick={true} />);
-  //   const hoverIcon = await screen.findByTestId("info-icon-svg");
-  //   fireEvent.click(hoverIcon);
-  //   const metadataList = await screen.findByTestId("metadata-list");
-  //   expect(metadataList).toBeTruthy();
-  //   expect(
-  //     metadataList.classList.contains("metadata-list--display"),
-  //   ).toBeTruthy();
-  //   card.unmount();
-  // });
+  it("Uses click to show metadata when showOnClick is true", async () => {
+    const card = render(<MetaDataCard imageFile={file} showOnClick={true} />);
+    const hoverIcon = await screen.findByTestId("info-icon-svg");
+    fireEvent.click(hoverIcon);
+    const metadataList = await screen.findByTestId("metadata-list");
+    expect(metadataList).toBeTruthy();
+    expect(
+      metadataList.getAttribute("data-test-showmetadata") === "true",
+    ).toBeTruthy();
+    card.unmount();
+  });
 
-  // it("Shows the close icon after user clicks the info icon", async () => {
-  //   const card = render(<MetaDataCard imageFile={file} showOnClick={true} />);
-  //   const hoverIcon = await screen.findByTestId("info-icon-svg");
-  //   fireEvent.click(hoverIcon);
-  //   const closeIcon = await screen.findByTestId("close-icon");
-  //   expect(closeIcon).toBeTruthy();
-  //   card.unmount();
-  // });
+  it("Shows the close icon after user clicks the info icon", async () => {
+    const card = render(<MetaDataCard imageFile={file} showOnClick={true} />);
+    const hoverIcon = await screen.findByTestId("info-icon-svg");
+    fireEvent.click(hoverIcon);
+    const closeIcon = await screen.findByTestId("close-icon");
+    expect(closeIcon).toBeTruthy();
+    card.unmount();
+  });
 
-  // it("Clicking close button hides the metadata list", async () => {
-  //   const card = render(<MetaDataCard imageFile={file} showOnClick={true} />);
-  //   const hoverIcon = await screen.findByTestId("info-icon-svg");
-  //   fireEvent.click(hoverIcon);
-  //   const closeIcon = await screen.findByTestId("close-icon-svg");
-  //   const metadataList = await screen.findByTestId("metadata-list");
-  //   expect(
-  //     metadataList.classList.contains("metadata-list--display"),
-  //   ).toBeTruthy();
-  //   fireEvent.click(closeIcon);
-  //   expect(
-  //     metadataList.classList.contains("metadata-list--display"),
-  //   ).toBeFalsy();
-  //   card.unmount();
-  // });
+  it("Clicking close button hides the metadata list", async () => {
+    const card = render(<MetaDataCard imageFile={file} showOnClick={true} />);
+    const hoverIcon = await screen.findByTestId("info-icon-svg");
+    fireEvent.click(hoverIcon);
+    const closeIcon = await screen.findByTestId("close-icon-svg");
+    const metadataList = await screen.findByTestId("metadata-list");
+    expect(
+      metadataList.getAttribute("data-test-showmetadata") === "true",
+    ).toBeTruthy();
+    fireEvent.click(closeIcon);
+    expect(
+      metadataList.getAttribute("data-test-showmetadata") === "false",
+    ).toBeTruthy();
+    card.unmount();
+  });
 });

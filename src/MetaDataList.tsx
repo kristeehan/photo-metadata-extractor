@@ -46,6 +46,7 @@ function MetaDataList(props: MetaDataListProps) {
       data-test-showmetadata={showMetaData}
       className={className}
       onMouseLeave={onMouseLeave}
+      data-test-position={positionSuffix}
     >
       {Object.entries(metadata).map(([key, value]) => {
         if (!value) return null;
