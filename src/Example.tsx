@@ -8,10 +8,9 @@ interface ExampleComponentProps {
 }
 
 const ExampleComponent: React.FC<ExampleComponentProps> = (props) => {
-  console.log(props, " what do we have here");
   return (
     <div>
-      <p>Hello</p>
+      <p>{props.description}</p>
     </div>
   );
 };

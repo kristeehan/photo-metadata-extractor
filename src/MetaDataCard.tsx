@@ -1,5 +1,5 @@
 import { extractMetaData } from "./photo-extractor";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Info, XCircle } from "lucide-react";
 import MetaDataList from "./MetaDataList";
 import {
@@ -23,11 +23,15 @@ function MetaDataCard<CustomComponentProps>({
   component,
   componentMetadata,
 }: MetaDataCardProps<CustomComponentProps>) {
+  // State
   const [showMetaData, setShowMetaData] = useState(false);
-  const [showIcon, setShowIcon] = useState(true);
   const [metadata, setMetadata] = useState({} as exifMetaData);
-  const [image, setImage] = useState(null as File | null);
-  const [imageSrc, setImagSrc] = useState("");
+  const [imageToExtractFrom, setImageToExtractFrom] = useState(
+    null as File | null,
+  );
+  const [imageSrc, setImageSrc] = useState("");
+
+  // Props
   const positionSuffix = metaDataPosition;
   const infoIconProps: InfoIconProps = {};
   const closeIconProps: CloseIconProps = {};
@@ -36,30 +40,32 @@ function MetaDataCard<CustomComponentProps>({
     showMetaData,
     positionSuffix,
   };
+
+  // Memoized metadata toggler
+  const toggleMetaData = useCallback(() => {
+    setShowMetaData(!showMetaData);
+  }, [showMetaData]);
+
   closeIconProps.onClick = () => {
-    setShowMetaData(false);
-    setShowIcon(true);
+    toggleMetaData();
   };
 
   if (showOnClick) {
     infoIconProps.onClick = () => {
-      setShowMetaData(!showMetaData);
-      setShowIcon(!showIcon);
+      toggleMetaData();
     };
   } else {
     infoIconProps.onMouseEnter = () => {
-      setShowMetaData(true);
-      setShowIcon(false);
+      toggleMetaData();
     };
     metaDataListProps.onMouseLeave = (e) => {
       e.stopPropagation();
-      setShowMetaData(false);
-      setShowIcon(true);
+      toggleMetaData();
     };
   }
 
   useEffect(() => {
-    extractMetaData(image).then(
+    extractMetaData(imageToExtractFrom).then(
       (metadata) => {
         setMetadata(metadata);
       },
@@ -67,19 +73,19 @@ function MetaDataCard<CustomComponentProps>({
         throw error;
       },
     );
-  }, [image]);
+  }, [imageToExtractFrom]);
 
   useEffect(() => {
     if (imageFile) {
-      setImage(imageFile);
+      setImageToExtractFrom(imageFile);
     }
     const imageSrc = imageFile ? URL.createObjectURL(imageFile) : imageUrl;
     if (typeof imageSrc === "string") {
-      setImagSrc(imageSrc);
+      setImageSrc(imageSrc);
     }
   }, []);
 
-  const renderCustomComponent = () => {
+  const renderCustomComponent = useCallback(() => {
     if (component && metadata && componentMetadata) {
       const componentProps = Object.entries(metadata).reduce(
         (acc, [key, value]) => {
@@ -94,7 +100,7 @@ function MetaDataCard<CustomComponentProps>({
       );
       return component(componentProps as CustomComponentProps);
     }
-  };
+  }, [metadata, component, componentMetadata]);
 
   const iconClassName = styles["icon-overlay"];
   const iconDisplayClassName = styles["icon-overlay--display"];
@@ -107,14 +113,14 @@ function MetaDataCard<CustomComponentProps>({
         alt=""
         onLoad={(event) => {
           if (!imageFile) {
-            handleImageLoaded(event, setImage);
+            handleImageLoaded(event, setImageToExtractFrom);
           }
         }}
       />
       <div
         data-testid="hover-icon"
         className={
-          showIcon
+          !showMetaData
             ? `${iconClassName} ${iconDisplayClassName} ${iconPositionClassName}`
             : `${iconClassName} ${iconPositionClassName}}`
         }
