@@ -1,6 +1,6 @@
 # Photo Meta Extractor
 
-Simple tool for extracting photo metadata and displaying it.
+Simple component for extracting photo metadata and displaying it.
 
 ## Installation
 
