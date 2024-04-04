@@ -1,10 +1,10 @@
 {
   "name": "@kteehan/photo-metadata-extractor",
-  "version": "1.0.0-beta",
+  "version": "1.0.2-beta",
   "description": "",
   "type": "module",
   "files": [
-    "dist"
+    "./src/dist"
   ],
   "main": "./src/dist/photo-metadata-extractor.umd.js",
   "module": "./src/dist/photo-metadata-extractor.es.jss",
