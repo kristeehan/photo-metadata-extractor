@@ -7,6 +7,7 @@ export interface MetaDataCardProps<CustomComponentProps> {
   imageUrl?: string;
   metaDataPosition?: PositionSuffix;
   showOnClick?: boolean;
+  metaDataCallback?: (metadata: exifMetaData) => void;
   component?: React.FC<CustomComponentProps> | null;
   componentMetadata?: MetaDataMatch;
 }

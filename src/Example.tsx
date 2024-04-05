@@ -1,5 +1,6 @@
 import { createRoot } from "react-dom/client";
 import { useState, useEffect } from "react";
+import { exifMetaData } from "./interfaces";
 import getExampleAssets from "./get-example-assets";
 import MetaDataCard from "./MetaDataCard";
 
@@ -13,6 +14,10 @@ const ExampleComponent: React.FC<ExampleComponentProps> = (props) => {
       <p>{props.description}</p>
     </div>
   );
+};
+
+const exampleCallback = function ({ height, width }: exifMetaData) {
+  console.log(`Height: ${height}, Width: ${width}`);
 };
 
 function Example() {
@@ -65,6 +70,7 @@ function Example() {
             imageFile={imageSelected}
             showOnClick={false}
             metaDataPosition="top-left"
+            metaDataCallback={exampleCallback}
             component={ExampleComponent}
             componentMetadata={{ keys: ["description"] }}
           />

@@ -20,6 +20,7 @@ function MetaDataCard<CustomComponentProps>({
   imageUrl,
   metaDataPosition = "top-left",
   showOnClick = false,
+  metaDataCallback,
   component,
   componentMetadata,
 }: MetaDataCardProps<CustomComponentProps>) {
@@ -65,9 +66,15 @@ function MetaDataCard<CustomComponentProps>({
   }
 
   useEffect(() => {
+    if (imageToExtractFrom === null) {
+      return;
+    }
     extractMetaData(imageToExtractFrom).then(
       (metadata) => {
         setMetadata(metadata);
+        if (metaDataCallback) {
+          metaDataCallback(metadata);
+        }
       },
       (error) => {
         throw error;
@@ -83,7 +90,7 @@ function MetaDataCard<CustomComponentProps>({
     if (typeof imageSrc === "string") {
       setImageSrc(imageSrc);
     }
-  }, []);
+  }, [imageFile]);
 
   const renderCustomComponent = useCallback(() => {
     if (component && metadata && componentMetadata) {
