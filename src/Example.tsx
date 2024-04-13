@@ -8,6 +8,14 @@ interface ExampleComponentProps {
   description: string;
 }
 
+async function fetchOneImage() {
+  const url = `https://d1qahebwsbtmqz.cloudfront.net/toy_gallery_one/toy-photo-2.jpg`;
+  const response = await fetch(url);
+  return response.blob();
+}
+
+console.log(fetchOneImage());
+
 const ExampleComponent: React.FC<ExampleComponentProps> = (props) => {
   return (
     <div>
@@ -22,14 +30,27 @@ const exampleCallback = function ({ height, width }: exifMetaData) {
 
 function Example() {
   const [imageSelected, setImageSelected] = useState(null as File | null);
+  const [imageSrc, setImageSrc] = useState("");
   const [exampleAssets, setExampleAssets] = useState(null as File[] | null);
+  const [examplePromise, setExamplePromise] = useState(
+    null as Promise<Blob> | null,
+  );
+
+  const filePromise = fetchOneImage().then((blob) => {
+    const file = new File([blob], "downloaded_image.jpg", {
+      type: "image/jpg",
+    });
+    return file;
+  });
 
   function fileSelectHandler(event: React.ChangeEvent<HTMLInputElement>) {
     const { target } = event;
     const { files } = target as HTMLInputElement;
     if (!files) return;
     const file = files[0];
+    const imageUrl = URL.createObjectURL(file);
     setImageSelected(file);
+    setImageSrc(imageUrl);
   }
 
   useEffect(() => {
@@ -68,6 +89,7 @@ function Example() {
         {imageSelected && (
           <MetaDataCard
             imageFile={imageSelected}
+            imageUrl={imageSrc}
             showOnClick={false}
             metaDataPosition="top-left"
             metaDataCallback={exampleCallback}
@@ -76,24 +98,21 @@ function Example() {
           />
         )}
       </div>
+      <div className="card-container"></div>
       <div className="card-container">
-        {exampleAssets &&
-          exampleAssets.map((file, index) => (
-            <MetaDataCard
-              key={index}
-              imageFile={file}
-              showOnClick={false}
-              metaDataPosition="top-left"
-            />
-          ))}
+        <MetaDataCard
+          imageFilePromise={filePromise}
+          showOnClick={true}
+          metaDataPosition="top-left"
+        />
       </div>
-      <div className="card-container">
+      {/* <div className="card-container">
         <MetaDataCard
           imageUrl="/example_assets/example-photo-2.jpg"
           showOnClick={true}
           metaDataPosition="top-left"
         />
-      </div>
+      </div> */}
     </div>
   );
 }

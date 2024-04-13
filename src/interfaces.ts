@@ -5,6 +5,7 @@ import { LucideIcon } from "lucide-react";
 export interface MetaDataCardProps<CustomComponentProps> {
   imageFile?: File | null;
   imageUrl?: string;
+  imageFilePromise?: Promise<File>;
   metaDataPosition?: PositionSuffix;
   showOnClick?: boolean;
   metaDataCallback?: (metadata: exifMetaData) => void;

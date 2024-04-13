@@ -16,8 +16,9 @@ import styles from "./metadatacard.module.css";
  * Component that displays the metadata of a photo and the photo itself.
  */
 function MetaDataCard<CustomComponentProps>({
-  imageFile,
-  imageUrl,
+  imageFile = null,
+  imageFilePromise,
+  imageUrl = "",
   metaDataPosition = "top-left",
   showOnClick = false,
   metaDataCallback,
@@ -30,7 +31,8 @@ function MetaDataCard<CustomComponentProps>({
   const [imageToExtractFrom, setImageToExtractFrom] = useState(
     null as File | null,
   );
-  const [imageSrc, setImageSrc] = useState("");
+  const [imageSrc, setImageSrc] = useState(imageUrl);
+  const [file, setFile] = useState<File | null>(imageFile);
 
   // Props
   const positionSuffix = metaDataPosition;
@@ -83,14 +85,30 @@ function MetaDataCard<CustomComponentProps>({
   }, [imageToExtractFrom]);
 
   useEffect(() => {
-    if (imageFile) {
-      setImageToExtractFrom(imageFile);
+    if (file) {
+      setImageToExtractFrom(file);
     }
-    const imageSrc = imageFile ? URL.createObjectURL(imageFile) : imageUrl;
-    if (typeof imageSrc === "string") {
-      setImageSrc(imageSrc);
+
+    if (imageSrc === "") {
+      const newSource = file ? URL.createObjectURL(file) : imageUrl;
+      if (typeof newSource === "string") {
+        setImageSrc(newSource);
+      }
     }
-  }, [imageFile]);
+  }, [file]);
+
+  useEffect(() => {
+    if (imageFilePromise) {
+      imageFilePromise
+        .then((promisedFile) => {
+          setFile(promisedFile);
+          setImageToExtractFrom(promisedFile);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, []);
 
   const renderCustomComponent = useCallback(() => {
     if (component && metadata && componentMetadata) {
@@ -119,7 +137,7 @@ function MetaDataCard<CustomComponentProps>({
         src={imageSrc}
         alt=""
         onLoad={(event) => {
-          if (!imageFile) {
+          if (!file) {
             handleImageLoaded(event, setImageToExtractFrom);
           }
         }}
