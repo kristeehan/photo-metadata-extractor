@@ -28,6 +28,7 @@ function MetaDataCard<CustomComponentProps>({
   // State
   const [showMetaData, setShowMetaData] = useState(false);
   const [metadata, setMetadata] = useState({} as exifMetaData);
+  const [customComponentMetadata, setCustomComponentMetadata] = useState({});
   const [imageToExtractFrom, setImageToExtractFrom] = useState(
     null as File | null,
   );
@@ -58,7 +59,8 @@ function MetaDataCard<CustomComponentProps>({
       toggleMetaData();
     };
   } else {
-    infoIconProps.onMouseEnter = () => {
+    infoIconProps.onMouseEnter = (e) => {
+      e.stopPropagation();
       toggleMetaData();
     };
     metaDataListProps.onMouseLeave = (e) => {
@@ -73,6 +75,16 @@ function MetaDataCard<CustomComponentProps>({
     }
     extractMetaData(imageToExtractFrom).then(
       (metadata) => {
+        if (componentMetadata && componentMetadata.keys.length > 0) {
+          const newMetaData = {};
+          componentMetadata.keys.forEach((key) => {
+            if (metadata[key]) {
+              newMetaData[key] = metadata[key];
+              delete metadata[key];
+            }
+          });
+          setCustomComponentMetadata(newMetaData);
+        }
         setMetadata(metadata);
         if (metaDataCallback) {
           metaDataCallback(metadata);
@@ -111,21 +123,14 @@ function MetaDataCard<CustomComponentProps>({
   }, []);
 
   const renderCustomComponent = useCallback(() => {
-    if (component && metadata && componentMetadata) {
-      const componentProps = Object.entries(metadata).reduce(
-        (acc, [key, value]) => {
-          if (componentMetadata.keys.includes(key)) {
-            if (value) {
-              acc[key] = value;
-            }
-          }
-          return acc;
-        },
-        {} as exifMetaData,
-      );
-      return component(componentProps as CustomComponentProps);
+    if (component && customComponentMetadata) {
+      console.log(customComponentMetadata);
+      if (isObjectEmpty(customComponentMetadata)) {
+        return null;
+      }
+      return component(customComponentMetadata as CustomComponentProps);
     }
-  }, [metadata, component, componentMetadata]);
+  }, [component, customComponentMetadata]);
 
   const iconClassName = styles["icon-overlay"];
   const iconDisplayClassName = styles["icon-overlay--display"];
@@ -172,7 +177,10 @@ function MetaDataCard<CustomComponentProps>({
           </div>
         </MetaDataList>
       )}
-      {!isObjectEmpty(metadata) && component && renderCustomComponent()}
+      {!isObjectEmpty(metadata) &&
+        component &&
+        customComponentMetadata &&
+        renderCustomComponent()}
     </div>
   );
 }

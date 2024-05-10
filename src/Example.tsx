@@ -9,14 +9,13 @@ interface ExampleComponentProps {
 }
 
 async function fetchOneImage() {
-  const url = `https://d1qahebwsbtmqz.cloudfront.net/toy_gallery_one/toy-photo-2.jpg`;
+  const url = `https://d1qahebwsbtmqz.cloudfront.net/toy_gallery_one/toy-photo-1.jpg`;
   const response = await fetch(url);
   return response.blob();
 }
 
-console.log(fetchOneImage());
-
 const ExampleComponent: React.FC<ExampleComponentProps> = (props) => {
+  console.log("make it here");
   return (
     <div>
       <p>{props.description}</p>
