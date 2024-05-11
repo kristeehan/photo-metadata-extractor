@@ -22,7 +22,7 @@ function MetaDataCard<CustomComponentProps>({
   metaDataPosition = "top-left",
   showOnClick = false,
   metaDataCallback,
-  component,
+  component: CustomComponent,
   componentMetadata,
 }: MetaDataCardProps<CustomComponentProps>) {
   // State
@@ -122,16 +122,6 @@ function MetaDataCard<CustomComponentProps>({
     }
   }, []);
 
-  const renderCustomComponent = useCallback(() => {
-    if (component && customComponentMetadata) {
-      console.log(customComponentMetadata);
-      if (isObjectEmpty(customComponentMetadata)) {
-        return null;
-      }
-      return component(customComponentMetadata as CustomComponentProps);
-    }
-  }, [component, customComponentMetadata]);
-
   const iconClassName = styles["icon-overlay"];
   const iconDisplayClassName = styles["icon-overlay--display"];
   const iconPositionClassName = styles[`icon-overlay--${positionSuffix}`];
@@ -178,9 +168,10 @@ function MetaDataCard<CustomComponentProps>({
         </MetaDataList>
       )}
       {!isObjectEmpty(metadata) &&
-        component &&
-        customComponentMetadata &&
-        renderCustomComponent()}
+        CustomComponent &&
+        customComponentMetadata && (
+          <CustomComponent {...customComponentMetadata} />
+        )}
     </div>
   );
 }
