@@ -167,7 +167,7 @@ function MetaDataCard<CustomComponentProps>({
           </div>
         </MetaDataList>
       )}
-      {!isObjectEmpty(metadata) &&
+      {!isObjectEmpty(customComponentMetadata) &&
         CustomComponent &&
         customComponentMetadata && (
           <CustomComponent {...customComponentMetadata} />
