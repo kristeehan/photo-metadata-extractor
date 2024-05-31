@@ -2,15 +2,14 @@ import { ReactElement } from "react";
 import { PositionSuffix } from "./types";
 import { LucideIcon } from "lucide-react";
 
-export interface MetaDataCardProps<CustomComponentProps> {
+export interface MetaDataCardProps {
   imageFile?: File | null;
   imageUrl?: string;
   imageFilePromise?: Promise<File>;
   metaDataPosition?: PositionSuffix;
   showOnClick?: boolean;
   metaDataCallback?: (metadata: exifMetaData) => void;
-  component?: React.FC<CustomComponentProps> | null;
-  componentMetadata?: MetaDataMatch;
+  metaDataNotToDisplay?: string[];
 }
 
 export interface MetaDataMatch {

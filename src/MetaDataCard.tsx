@@ -1,5 +1,5 @@
 import { extractMetaData } from "./photo-extractor";
-import React, { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Info, XCircle } from "lucide-react";
 import MetaDataList from "./MetaDataList";
 import {
@@ -15,20 +15,18 @@ import styles from "./metadatacard.module.css";
 /**
  * Component that displays the metadata of a photo and the photo itself.
  */
-function MetaDataCard<CustomComponentProps>({
+function MetaDataCard({
   imageFile = null,
   imageFilePromise,
   imageUrl = "",
   metaDataPosition = "top-left",
   showOnClick = false,
   metaDataCallback,
-  component: CustomComponent,
-  componentMetadata,
-}: MetaDataCardProps<CustomComponentProps>) {
+  metaDataNotToDisplay = [],
+}: MetaDataCardProps) {
   // State
   const [showMetaData, setShowMetaData] = useState(false);
   const [metadata, setMetadata] = useState({} as exifMetaData);
-  const [customComponentMetadata, setCustomComponentMetadata] = useState({});
   const [imageToExtractFrom, setImageToExtractFrom] = useState(
     null as File | null,
   );
@@ -75,15 +73,10 @@ function MetaDataCard<CustomComponentProps>({
     }
     extractMetaData(imageToExtractFrom).then(
       (metadata) => {
-        if (componentMetadata && componentMetadata.keys.length > 0) {
-          const newMetaData = {};
-          componentMetadata.keys.forEach((key) => {
-            if (metadata[key]) {
-              newMetaData[key] = metadata[key];
-              delete metadata[key];
-            }
+        if (metaDataNotToDisplay.length > 0) {
+          metaDataNotToDisplay.forEach((key) => {
+            delete metadata[key];
           });
-          setCustomComponentMetadata(newMetaData);
         }
         setMetadata(metadata);
         if (metaDataCallback) {
@@ -167,7 +160,6 @@ function MetaDataCard<CustomComponentProps>({
           </div>
         </MetaDataList>
       )}
-      {CustomComponent && metadata && <CustomComponent {...metadata} />}
     </div>
   );
 }
