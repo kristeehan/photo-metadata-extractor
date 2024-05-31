@@ -73,15 +73,18 @@ function MetaDataCard({
     }
     extractMetaData(imageToExtractFrom).then(
       (metadata) => {
+        // First call the callback function if it exists
+        if (metaDataCallback) {
+          metaDataCallback(metadata);
+        }
+        // Then remove the metadata that should not be displayed
         if (metaDataNotToDisplay.length > 0) {
           metaDataNotToDisplay.forEach((key) => {
             delete metadata[key];
           });
         }
+        // Then set metadata
         setMetadata(metadata);
-        if (metaDataCallback) {
-          metaDataCallback(metadata);
-        }
       },
       (error) => {
         throw error;

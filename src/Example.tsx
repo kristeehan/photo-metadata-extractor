@@ -1,7 +1,6 @@
 import { createRoot } from "react-dom/client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { exifMetaData } from "./interfaces";
-import getExampleAssets from "./get-example-assets";
 import MetaDataCard from "./MetaDataCard";
 
 async function fetchOneImage() {
@@ -34,23 +33,6 @@ function Example() {
     setImageSelected(file);
     setImageSrc(imageUrl);
   }
-
-  useEffect(() => {
-    getExampleAssets()
-      .then((blobs) => {
-        const files: File[] = [];
-        blobs.forEach((blob) => {
-          const file = new File([blob], "downloaded_image.jpg", {
-            type: "image/jpg",
-          });
-          files.push(file);
-        });
-        setExampleAssets(files);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, []);
 
   return (
     <div className="example-container">
