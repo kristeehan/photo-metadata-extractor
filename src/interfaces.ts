@@ -26,7 +26,7 @@ export interface MetaDataListProps {
 
 export interface InfoIconProps {
   onClick?: () => void;
-  onMouseEnter?: (e: React.MouseEvent<HTMLUListElement, MouseEvent>) => void;
+  onMouseEnter?: (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => void;
 }
 
 export interface CloseIconProps {

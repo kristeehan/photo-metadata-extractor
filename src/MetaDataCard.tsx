@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { extractMetaData } from "./photo-extractor";
 import { useState, useEffect, useCallback } from "react";
 import { Info, XCircle } from "lucide-react";
@@ -57,11 +58,16 @@ function MetaDataCard({
       toggleMetaData();
     };
   } else {
-    infoIconProps.onMouseEnter = (e) => {
+    infoIconProps.onMouseEnter = (
+      e: React.MouseEvent<SVGSVGElement, MouseEvent>,
+    ) => {
       e.stopPropagation();
       toggleMetaData();
     };
-    metaDataListProps.onMouseLeave = (e) => {
+
+    metaDataListProps.onMouseLeave = (
+      e: React.MouseEvent<HTMLUListElement, MouseEvent>,
+    ) => {
       e.stopPropagation();
       toggleMetaData();
     };
