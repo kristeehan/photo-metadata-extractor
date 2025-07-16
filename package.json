@@ -19,7 +19,7 @@
     "dev": "vite",
     "build": "vite build && tsc",
     "preview": "vite preview",
-    "format": "prettier --write \"src/**/*.{js,jsx}\"",
+    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
     "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\" --quiet --ignore-pattern dist/",
     "test": "vitest"
   },
