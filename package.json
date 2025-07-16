@@ -1,6 +1,6 @@
 {
   "name": "@kteehan/photo-metadata-extractor",
-  "version": "1.2.0-beta",
+  "version": "1.2.0",
   "description": "React component that extracts and displays photo metadata",
   "type": "module",
   "files": [
