@@ -99,16 +99,15 @@ function MetaDataCard({
   }, [imageToExtractFrom]);
 
   useEffect(() => {
-    if (file) {
-      setImageToExtractFrom(file);
-    }
+    if (!file) return;
 
-    if (imageSrc === "") {
-      const newSource = file ? URL.createObjectURL(file) : imageUrl;
-      if (typeof newSource === "string") {
-        setImageSrc(newSource);
-      }
-    }
+    const objectUrl = URL.createObjectURL(file);
+    setImageSrc(objectUrl);
+    setImageToExtractFrom(file);
+
+    return () => {
+      URL.revokeObjectURL(objectUrl);
+    };
   }, [file]);
 
   useEffect(() => {
@@ -123,6 +122,12 @@ function MetaDataCard({
         });
     }
   }, []);
+
+  useEffect(() => {
+    if (imageFile) {
+      setFile(imageFile);
+    }
+  }, [imageFile]);
 
   const iconClassName = styles["icon-overlay"];
   const iconDisplayClassName = styles["icon-overlay--display"];

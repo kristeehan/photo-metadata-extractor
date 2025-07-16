@@ -29,9 +29,10 @@ function Example() {
     const { files } = target as HTMLInputElement;
     if (!files) return;
     const file = files[0];
-    const imageUrl = URL.createObjectURL(file);
+    console.log("", file.name);
+    //const imageUrl = URL.createObjectURL(file);
     setImageSelected(file);
-    setImageSrc(imageUrl);
+    //setImageSrc(imageUrl);
   }
 
   return (
@@ -54,7 +55,6 @@ function Example() {
         {imageSelected && (
           <MetaDataCard
             imageFile={imageSelected}
-            imageUrl={imageSrc}
             showOnClick={false}
             metaDataPosition="top-left"
             metaDataCallback={exampleCallback}
