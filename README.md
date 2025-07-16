@@ -53,7 +53,7 @@ export default App;
 
 ```tsx
 import React from "react";
-import MetaDataCard from "./src/MetaDataCard";
+import MetaDataCard from "@kteehan/photo-metadata-extractor";
 
 function App() {
   const handleMetaDataCallback = (metadata) => {
