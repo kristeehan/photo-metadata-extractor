@@ -8,11 +8,11 @@
   ],
   "main": "./src/dist/photo-metadata-extractor.umd.js",
   "types": "./src/dist/index.d.ts",
-  "module": "./src/dist/photo-metadata-extractor.es.jss",
+  "module": "./src/dist/photo-metadata-extractor.es.js",
   "exports": {
     ".": {
       "import": "./src/dist/photo-metadata-extractor.es.js",
-      "require": "./src/dist/photo-metadata-extractor.umd.j"
+      "require": "./src/dist/photo-metadata-extractor.umd.js"
     }
   },
   "scripts": {
