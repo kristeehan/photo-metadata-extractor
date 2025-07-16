@@ -15,7 +15,7 @@ describe("MetaDataList", () => {
       <MetaDataList
         metadata={metadata}
         showMetaData={true}
-        positionSuffix="left"
+        positionSuffix="top-left"
       />,
     );
     const metadataList = screen.getByTestId("metadata-list");
@@ -30,7 +30,7 @@ describe("MetaDataList", () => {
       <MetaDataList
         metadata={metadata}
         showMetaData={false}
-        positionSuffix="bottom"
+        positionSuffix="bottom-right"
       />,
     );
     const metadataList = screen.getByTestId("metadata-list");
@@ -45,7 +45,7 @@ describe("MetaDataList", () => {
       <MetaDataList
         metadata={metadata}
         showMetaData={true}
-        positionSuffix="left"
+        positionSuffix="bottom-left"
         onMouseLeave={() => {}}
       />,
     );
@@ -58,7 +58,7 @@ describe("MetaDataList", () => {
       <MetaDataList
         metadata={metadata}
         showMetaData={true}
-        positionSuffix="right"
+        positionSuffix="top-right"
       />,
     );
     const metadataItems = screen.getAllByRole("listitem");
