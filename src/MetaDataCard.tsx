@@ -149,7 +149,7 @@ function MetaDataCard({
         className={
           !showMetaData
             ? `${iconClassName} ${iconDisplayClassName} ${iconPositionClassName}`
-            : `${iconClassName} ${iconPositionClassName}}`
+            : `${iconClassName} ${iconPositionClassName}`
         }
       >
         <Info data-testid="info-icon-svg" color="#fff" {...infoIconProps} />
