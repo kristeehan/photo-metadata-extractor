@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { extractMetaData } from "./photo-extractor";
 import { useState, useEffect, useCallback } from "react";
-import { Info, XCircle } from "lucide-react";
+import { FaInfoCircle, FaTimesCircle } from "react-icons/fa";
 import MetaDataList from "./MetaDataList";
 import {
   CloseIconProps,
@@ -152,7 +152,7 @@ function MetaDataCard({
             : `${iconClassName} ${iconPositionClassName}}`
         }
       >
-        <Info data-testid="info-icon-svg" color="#fff" {...infoIconProps} />
+        <FaInfoCircle data-testid="info-icon-svg" color="#fff" {...infoIconProps} />
       </div>
       {!isObjectEmpty(metadata) && (
         <MetaDataList {...metaDataListProps}>
@@ -165,7 +165,7 @@ function MetaDataCard({
             }
           >
             {showOnClick && showMetaData && (
-              <XCircle
+              <FaTimesCircle
                 color="#fff"
                 data-testid="close-icon-svg"
                 {...closeIconProps}

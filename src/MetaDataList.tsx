@@ -2,28 +2,29 @@ import { keyToLabelMap } from "./constants";
 import { MetaDataListProps, LabelToIconMap } from "./interfaces";
 import { MetaDataLabelIconProps } from "./types";
 import {
-  Aperture,
-  Calendar,
-  Camera,
-  Clock11,
-  Lightbulb,
-  Ruler,
-  UserCircle2,
-  View,
-} from "lucide-react";
+  FaUserCircle,
+  FaClock,
+  FaEye,
+  FaDotCircle,
+  FaLightbulb,
+  FaCalendar,
+  FaCamera,
+  FaRuler,
+  FaAlignLeft,
+} from "react-icons/fa";
 import styles from "./metadatacard.module.css";
 
 export const labelToIconMap: LabelToIconMap = {
-  author: UserCircle2,
-  shutterSpeed: Clock11,
-  focalLength: View,
-  aperture: Aperture,
-  iso: Lightbulb,
-  date: Calendar,
-  camera: Camera,
-  height: Ruler,
-  width: Ruler,
-  description: Lightbulb,
+  author: FaUserCircle,
+  shutterSpeed: FaClock,
+  focalLength: FaEye,
+  aperture: FaDotCircle,
+  iso: FaLightbulb,
+  date: FaCalendar,
+  camera: FaCamera,
+  height: FaRuler,
+  width: FaRuler,
+  description: FaAlignLeft,
 };
 
 function MetaDataList(props: MetaDataListProps) {
