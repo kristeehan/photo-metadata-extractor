@@ -39,6 +39,7 @@ function App() {
         imageUrl="" // Leave empty if an image file is provided
         metaDataPosition="top-right" // Position of the metadata overlay (e.g., "top-left", "top-right", etc.)
         showOnClick={true} // Set to true to show metadata on click, false for hover
+        hideMetaData={false} // Set to true to hide the metadata UI (no icon or metadata list)
         metaDataCallback={handleMetaDataCallback} // Callback function to handle extracted metadata
         metaDataNotToDisplay={["Make", "Model"]} // Specify metadata keys to exclude from display
       />
@@ -69,6 +70,7 @@ function App() {
         imageUrl="https://example.com/sample-photo.jpg" // Pass an example image URL
         metaDataPosition="top-left" // Position of the metadata overlay (e.g., "top-left", "top-right", etc.)
         showOnClick={false} // Set to false to show metadata on hover
+        hideMetaData={false} // Set to true to hide the metadata UI (no icon or metadata list)
         metaDataCallback={handleMetaDataCallback} // Callback function to handle extracted metadata
         metaDataNotToDisplay={["ISO", "ExposureTime"]} // Specify metadata keys to exclude from display
       />
