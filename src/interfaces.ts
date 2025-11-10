@@ -8,6 +8,7 @@ export interface MetaDataCardProps {
   imageFilePromise?: Promise<File>;
   metaDataPosition?: PositionSuffix;
   showOnClick?: boolean;
+  hideMetaData?: boolean;
   metaDataCallback?: (metadata: exifMetaData) => void;
   metaDataNotToDisplay?: string[];
 }

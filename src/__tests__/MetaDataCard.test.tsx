@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { describe, expect, it } from "vitest";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import MetaDataCard from "../MetaDataCard";
 
 const imagePath = path.join(__dirname, "assets", "test-image.jpg");
@@ -26,6 +26,44 @@ describe("MetaDataCard", () => {
     const card = render(<MetaDataCard imageFile={file} />);
     await screen.findByTestId("hover-icon");
     expect(card.getByTestId("hover-icon")).toBeTruthy();
+    card.unmount();
+  });
+
+  it("Does not render metadata UI when hideMetaData is true", async () => {
+    const card = render(<MetaDataCard imageFile={file} hideMetaData={true} />);
+    await screen.findByTestId("metadata-card");
+    expect(screen.queryByTestId("hover-icon")).toBeNull();
+    expect(screen.queryByTestId("metadata-list")).toBeNull();
+    card.unmount();
+  });
+
+  it("Resets metadata visibility when hideMetaData toggles from false to true", async () => {
+    const card = render(
+      <MetaDataCard imageFile={file} showOnClick={true} hideMetaData={false} />,
+    );
+    const hoverIcon = await screen.findByTestId("info-icon-svg");
+    fireEvent.click(hoverIcon);
+    const metadataList = await screen.findByTestId("metadata-list");
+    expect(metadataList.getAttribute("data-test-showmetadata")).toBe("true");
+
+    card.rerender(
+      <MetaDataCard imageFile={file} showOnClick={true} hideMetaData={true} />,
+    );
+
+    await waitFor(() => {
+      expect(screen.queryByTestId("hover-icon")).toBeNull();
+      expect(screen.queryByTestId("metadata-list")).toBeNull();
+    });
+
+    card.rerender(
+      <MetaDataCard imageFile={file} showOnClick={true} hideMetaData={false} />,
+    );
+
+    await screen.findByTestId("hover-icon");
+    const metadataListAfterReset = await screen.findByTestId("metadata-list");
+    expect(metadataListAfterReset.getAttribute("data-test-showmetadata")).toBe(
+      "false",
+    );
     card.unmount();
   });
 

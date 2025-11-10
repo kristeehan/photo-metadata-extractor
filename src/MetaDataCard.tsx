@@ -22,6 +22,7 @@ function MetaDataCard({
   imageUrl = "",
   metaDataPosition = "top-left",
   showOnClick = false,
+  hideMetaData = false,
   metaDataCallback,
   metaDataNotToDisplay = [],
 }: MetaDataCardProps) {
@@ -46,32 +47,36 @@ function MetaDataCard({
 
   // Memoized metadata toggler
   const toggleMetaData = useCallback(() => {
-    setShowMetaData(!showMetaData);
-  }, [showMetaData]);
+    setShowMetaData((prev) => !prev);
+  }, []);
 
-  closeIconProps.onClick = () => {
-    toggleMetaData();
-  };
+  closeIconProps.onClick = toggleMetaData;
 
-  if (showOnClick) {
-    infoIconProps.onClick = () => {
-      toggleMetaData();
-    };
-  } else {
-    infoIconProps.onMouseEnter = (
-      e: React.MouseEvent<SVGSVGElement, MouseEvent>,
-    ) => {
-      e.stopPropagation();
-      toggleMetaData();
-    };
+  if (!hideMetaData) {
+    if (showOnClick) {
+      infoIconProps.onClick = toggleMetaData;
+    } else {
+      infoIconProps.onMouseEnter = (
+        e: React.MouseEvent<SVGSVGElement, MouseEvent>,
+      ) => {
+        e.stopPropagation();
+        toggleMetaData();
+      };
 
-    metaDataListProps.onMouseLeave = (
-      e: React.MouseEvent<HTMLUListElement, MouseEvent>,
-    ) => {
-      e.stopPropagation();
-      toggleMetaData();
-    };
+      metaDataListProps.onMouseLeave = (
+        e: React.MouseEvent<HTMLUListElement, MouseEvent>,
+      ) => {
+        e.stopPropagation();
+        toggleMetaData();
+      };
+    }
   }
+
+  useEffect(() => {
+    if (hideMetaData) {
+      setShowMetaData(false);
+    }
+  }, [hideMetaData]);
 
   useEffect(() => {
     if (imageToExtractFrom === null) {
@@ -144,17 +149,19 @@ function MetaDataCard({
           }
         }}
       />
-      <div
-        data-testid="hover-icon"
-        className={
-          !showMetaData
-            ? `${iconClassName} ${iconDisplayClassName} ${iconPositionClassName}`
-            : `${iconClassName} ${iconPositionClassName}`
-        }
-      >
-        <Info data-testid="info-icon-svg" color="#fff" {...infoIconProps} />
-      </div>
-      {!isObjectEmpty(metadata) && (
+      {!hideMetaData && (
+        <div
+          data-testid="hover-icon"
+          className={
+            !showMetaData
+              ? `${iconClassName} ${iconDisplayClassName} ${iconPositionClassName}`
+              : `${iconClassName} ${iconPositionClassName}`
+          }
+        >
+          <Info data-testid="info-icon-svg" color="#fff" {...infoIconProps} />
+        </div>
+      )}
+      {!hideMetaData && !isObjectEmpty(metadata) && (
         <MetaDataList {...metaDataListProps}>
           <div
             data-testid="close-icon"

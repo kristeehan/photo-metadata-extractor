@@ -1,6 +1,6 @@
 {
   "name": "@kteehan/photo-metadata-extractor",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "React component that extracts and displays photo metadata",
   "type": "module",
   "files": [
@@ -34,6 +34,9 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/kteehan/photo-metadata-extractor"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "license": "ISC",
   "devDependencies": {
