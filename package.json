@@ -1,6 +1,6 @@
 {
   "name": "@kteehan/photo-metadata-extractor",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "React component for extracting and displaying EXIF photo metadata",
   "type": "module",
   "files": [
