@@ -19,7 +19,7 @@ import styles from "./metadatacard.module.css";
 function MetaDataCard({
   imageFile = null,
   imageFilePromise,
-  imageUrl = "",
+  imageUrl,
   metaDataPosition = "top-left",
   showOnClick = false,
   hideMetaData = false,
@@ -32,7 +32,7 @@ function MetaDataCard({
   const [imageToExtractFrom, setImageToExtractFrom] = useState(
     null as File | null,
   );
-  const [imageSrc, setImageSrc] = useState(imageUrl);
+  const [imageSrc, setImageSrc] = useState<string | null>(imageUrl ?? null);
   const [file, setFile] = useState<File | null>(imageFile);
 
   // Props
@@ -134,21 +134,29 @@ function MetaDataCard({
     }
   }, [imageFile]);
 
+  useEffect(() => {
+    if (!file) {
+      setImageSrc(imageUrl ?? null);
+    }
+  }, [file, imageUrl]);
+
   const iconClassName = styles["icon-overlay"];
   const iconDisplayClassName = styles["icon-overlay--display"];
   const iconPositionClassName = styles[`icon-overlay--${positionSuffix}`];
 
   return (
     <div data-testid="metadata-card" className={styles["metadata-card"]}>
-      <img
-        src={imageSrc}
-        alt=""
-        onLoad={(event) => {
-          if (!file) {
-            handleImageLoaded(event, setImageToExtractFrom);
-          }
-        }}
-      />
+      {imageSrc && (
+        <img
+          src={imageSrc}
+          alt=""
+          onLoad={(event) => {
+            if (!file) {
+              handleImageLoaded(event, setImageToExtractFrom);
+            }
+          }}
+        />
+      )}
       {!hideMetaData && (
         <div
           data-testid="hover-icon"
