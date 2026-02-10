@@ -1,82 +1,73 @@
-# Photo Meta Extractor
+# Photo Metadata Extractor
 
-Simple component for extracting photo metadata and displaying it.
+A React component for extracting EXIF metadata from images and displaying it in an overlay UI.
 
-## Installation
+## Install
 
-To install in your project, run
-
-```
+```bash
 npm i @kteehan/photo-metadata-extractor
 ```
 
+## Peer dependencies
+
+This package expects:
+
+- `react` `^18.2.0 || ^19.0.0`
+- `react-dom` `^18.2.0 || ^19.0.0`
+
 ## Usage
 
-Below are examples of how to use the `MetaDataCard` component in your project, with both an image file and an image URL:
-
-### Example 1: Using an Image File
-
 ```tsx
-import React from "react";
-import MetaDataCard from "@kteehan/photo-metadata-extractor";
+import { MetaDataCard, type exifMetaData } from "@kteehan/photo-metadata-extractor";
 
 function App() {
-  const handleMetaDataCallback = (metadata) => {
-    console.log("Extracted Metadata:", metadata);
-  };
-
-  // Example image file (replace this with an actual File object in your implementation)
-  const exampleImageFile = new File([""], "example-photo.jpg", {
-    type: "image/jpeg",
-  });
-
-  return (
-    <div style={{ margin: "20px" }}>
-      <h1>Photo Metadata Extractor</h1>
-      <MetaDataCard
-        imageFile={exampleImageFile} // Pass an example image file
-        imageFilePromise={null} // Pass a Promise resolving to an image file if applicable
-        imageUrl="" // Leave empty if an image file is provided
-        metaDataPosition="top-right" // Position of the metadata overlay (e.g., "top-left", "top-right", etc.)
-        showOnClick={true} // Set to true to show metadata on click, false for hover
-        hideMetaData={false} // Set to true to hide the metadata UI (no icon or metadata list)
-        metaDataCallback={handleMetaDataCallback} // Callback function to handle extracted metadata
-        metaDataNotToDisplay={["Make", "Model"]} // Specify metadata keys to exclude from display
-      />
-    </div>
-  );
-}
-
-export default App;
-```
-
-### Example 2: Using an Image URL
-
-```tsx
-import React from "react";
-import MetaDataCard from "@kteehan/photo-metadata-extractor";
-
-function App() {
-  const handleMetaDataCallback = (metadata) => {
-    console.log("Extracted Metadata:", metadata);
+  const handleMetaData = (metadata: exifMetaData) => {
+    console.log(metadata);
   };
 
   return (
-    <div style={{ margin: "20px" }}>
-      <h1>Photo Metadata Extractor</h1>
-      <MetaDataCard
-        imageFile={null} // No image file provided
-        imageFilePromise={null} // No promise provided
-        imageUrl="https://example.com/sample-photo.jpg" // Pass an example image URL
-        metaDataPosition="top-left" // Position of the metadata overlay (e.g., "top-left", "top-right", etc.)
-        showOnClick={false} // Set to false to show metadata on hover
-        hideMetaData={false} // Set to true to hide the metadata UI (no icon or metadata list)
-        metaDataCallback={handleMetaDataCallback} // Callback function to handle extracted metadata
-        metaDataNotToDisplay={["ISO", "ExposureTime"]} // Specify metadata keys to exclude from display
-      />
-    </div>
+    <MetaDataCard
+      imageUrl="https://example.com/photo.jpg"
+      metaDataPosition="top-right"
+      showOnClick
+      metaDataNotToDisplay={["Make", "Model"]}
+      metaDataCallback={handleMetaData}
+    />
   );
 }
-
-export default App;
 ```
+
+You can also pass an uploaded file:
+
+```tsx
+<MetaDataCard imageFile={file} />
+```
+
+or a `Promise<File>`:
+
+```tsx
+<MetaDataCard imageFilePromise={filePromise} />
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `imageFile` | `File \| null` | `null` | Local image file to display and extract metadata from. |
+| `imageFilePromise` | `Promise<File>` | `undefined` | Promise that resolves to a file to display/extract from. |
+| `imageUrl` | `string` | `undefined` | Remote image URL to display and extract metadata from. |
+| `metaDataPosition` | `"top-left" \| "top-right" \| "bottom-left" \| "bottom-right"` | `"top-left"` | Position of metadata overlay. |
+| `showOnClick` | `boolean` | `false` | If `true`, metadata toggles on click; otherwise it appears on hover. |
+| `hideMetaData` | `boolean` | `false` | Hide metadata UI entirely. |
+| `metaDataCallback` | `(metadata) => void` | `undefined` | Receives extracted metadata object. |
+| `metaDataNotToDisplay` | `string[]` | `[]` | Metadata keys to remove from rendered output. |
+
+## Exports
+
+- Default export: `MetaDataCard`
+- Named export: `MetaDataCard`
+- Types: `MetaDataCardProps`, `exifMetaData`
+
+## License
+
+ISC

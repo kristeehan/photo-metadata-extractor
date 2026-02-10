@@ -15,7 +15,6 @@ const exampleCallback = function ({ height, width }: exifMetaData) {
 
 function Example() {
   const [imageSelected, setImageSelected] = useState(null as File | null);
-  const [imageSrc, setImageSrc] = useState("");
 
   const filePromise = fetchOneImage().then((blob) => {
     const file = new File([blob], "downloaded_image.jpg", {

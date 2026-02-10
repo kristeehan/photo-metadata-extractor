@@ -1,19 +1,22 @@
 {
   "name": "@kteehan/photo-metadata-extractor",
   "version": "2.0.2",
-  "description": "React component that extracts and displays photo metadata",
+  "description": "React component for extracting and displaying EXIF photo metadata",
   "type": "module",
   "files": [
-    "./src/dist"
+    "dist"
   ],
-  "main": "./src/dist/photo-metadata-extractor.umd.js",
-  "types": "./src/dist/index.d.ts",
-  "module": "./src/dist/photo-metadata-extractor.es.js",
+  "main": "./dist/photo-metadata-extractor.umd.js",
+  "types": "./dist/index.d.ts",
+  "module": "./dist/photo-metadata-extractor.es.js",
   "exports": {
     ".": {
-      "import": "./src/dist/photo-metadata-extractor.es.js",
-      "require": "./src/dist/photo-metadata-extractor.umd.js"
-    }
+      "types": "./dist/index.d.ts",
+      "import": "./dist/photo-metadata-extractor.es.js",
+      "require": "./dist/photo-metadata-extractor.umd.js",
+      "default": "./dist/photo-metadata-extractor.es.js"
+    },
+    "./styles.css": "./dist/index.css"
   },
   "scripts": {
     "dev": "vite",
@@ -21,7 +24,8 @@
     "preview": "vite preview",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
     "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\" --quiet --ignore-pattern dist/",
-    "test": "vitest"
+    "test": "vitest",
+    "prepublishOnly": "npm run lint && npm test -- --run && npm run build"
   },
   "keywords": [
     "react",
@@ -33,7 +37,7 @@
   "author": "kristeehan <kristeehan@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/kteehan/photo-metadata-extractor"
+    "url": "git+https://github.com/kteehan/photo-metadata-extractor.git"
   },
   "publishConfig": {
     "access": "public"
@@ -65,7 +69,11 @@
     "lucide-react": "^0.539.0"
   },
   "peerDependencies": {
-    "react": "^19",
-    "react-dom": "^19"
-  }
+    "react": "^18.2.0 || ^19.0.0",
+    "react-dom": "^18.2.0 || ^19.0.0"
+  },
+  "bugs": {
+    "url": "https://github.com/kteehan/photo-metadata-extractor/issues"
+  },
+  "homepage": "https://github.com/kteehan/photo-metadata-extractor#readme"
 }
